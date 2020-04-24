@@ -20,6 +20,12 @@ import datetime
 
 app = Flask(__name__)
 
+#GET /
+@app.route('/', methods=["GET"])
+@cross_origin()
+def testGet():
+    return jsonify({"userId": 1,"isBot": True}), 200
+
 # POST /telecomchatbot
 @app.route('/telecomchatbot', methods=["POST"])
 @cross_origin()
