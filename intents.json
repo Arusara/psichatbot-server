@@ -1,0 +1,38 @@
+{"intents": [
+        {"tag": "greeting",
+         "patterns": ["Hi", "How are you", "Is anyone there?", "Hello", "Good day", "Whats up"],
+         "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"],
+         "context_set": ""
+        },
+        {"tag": "goodbye",
+         "patterns": ["See you later", "Goodbye", "Have a Good day", "bye"],
+         "responses": ["Talk to you later", "Goodbye!"]
+        },
+        {"tag": "no signal",
+         "patterns": ["I am not getting signal", "There is no connection", "My connection is gone", "There isn't any signal", "There is no signal", "I have no signal", "I can't connect to the network"],
+         "responses": ["Where?"]
+        },
+        {"tag": "low signal",
+         "patterns": ["I have low signal", "The connection is slow", "Internet is slow"],
+         "responses": ["Ok. We will get on it."]
+        },
+        {"tag": "change package",
+         "patterns": ["Can I change my package", "I want a different package", "I want to change my package", "I want to change the package", "Change package"],
+         "responses": ["What package do you want to change to?"]
+        },
+        {"tag": "new package",
+         "patterns": ["I want to activate D99 package", "I want to activate a new package", "I want to activate a package", "I want a new package", "Activate package", "I want to activate a package"],
+         "responses": ["Ok. I'll activate that package for you."]
+        },
+        {"tag": "deactivate package",
+         "patterns": ["I want to deactivate my package", "deactivate my package", "I want to deactivate package"],
+         "responses": ["Are you sure you want to deactivate your package?"],
+         "context_set": "deactivate package"
+        },
+        {"tag": "thanks",
+         "patterns": ["Thank you", "Thanks"],
+         "responses": ["You're welcome. Is there anything else I can help you with?"],
+         "context_set": "continue"
+        }
+   ]
+}
