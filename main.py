@@ -168,9 +168,9 @@ def response(inp, userId):  # Returns the bot's response for "inp"
                 context[userId] = ""
                 while context[userId]!= "":
                     pass
-                return "Okay, I'll activate " + package + " for you"
+                return "Okay, I'll activate " + package + " for you. Context:" + context[userId]"
             else:
-                return "I'm sorry but that's not a valid package name. Please try again."
+                return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId]"
         elif context[userId] == "change package name":
             tree = prep_for_extract(inp)
             package = extract_info.package(tree)
@@ -179,9 +179,9 @@ def response(inp, userId):  # Returns the bot's response for "inp"
                 context[userId] = ""
                 while context[userId]!= "":
                     pass
-                return "Okay, I'll change your package to " + package
+                return "Okay, I'll change your package to " + package +"Context:" + context[userId]
             else:
-                return "I'm sorry but that's not a valid package name. Please try again."
+                return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId]
         elif context[userId] == "deactivate package":
             if "yes" in inp.lower():
                 context[userId] = ""
@@ -240,7 +240,7 @@ def response(inp, userId):  # Returns the bot's response for "inp"
                     context[userId] = "change package name"
                     while context[userId]!= "change package name":
                         pass
-                    return "Which package do you want to change to?"
+                    return "Which package do you want to change to? Context:" + context[userId]
             elif i['tag']=="new package":
                 package = extract_info.package(tree)
                 if package:
@@ -249,14 +249,14 @@ def response(inp, userId):  # Returns the bot's response for "inp"
                     context[userId] = "new package name"
                     while context[userId]!= "new package name":
                         pass
-                    return "Which package do you want to activate?"
+                    return "Which package do you want to activate? Context:" + context[userId]
 
             responses = i["responses"]
             return random.choice(responses)
         else:  # The context didn't match
-            return "I'm sorry, I didn't get that. Please try again."
+            return "I'm sorry, I didn't get that. Please try again. Context:" + context[userId]
     else:  # The classification didn't work
-        return "I'm sorry, I didn't get that. Please try again."
+        return "I'm sorry, I didn't get that. Please try again. Context:" + context[userId]
 
 
 #app.run(port=5000, debug=True)
