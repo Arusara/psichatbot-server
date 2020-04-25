@@ -114,7 +114,7 @@ model = tflearn.DNN(net)
 try:  # Loads the current model (if it exists)
     # If the intents.json file has been changed, then comment out model.load("model.tflearn"), and bring back the 'raise Exception'
     model.load("model.tflearn")
-     #raise Exception
+    # raise Exception
 except:
     model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
     model.save("model.tflearn")
@@ -237,4 +237,4 @@ def response(inp, userId):  # Returns the bot's response for "inp"
         return "I'm sorry, I didn't get that. Please try again."
 
 
-#app.run(port=5000, debug=True)
+# app.run(port=5000, debug=True)
