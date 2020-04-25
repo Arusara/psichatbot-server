@@ -33,6 +33,10 @@ def chatbotReply():
     message = request.get_json()
     messageText = message['message']
     userId = message['userId']
+    if not userId in context.keys():
+        context[userId]=""
+    while userId not in context.keys():
+        pass
     reply = response(messageText, userId)
     date_handler = lambda obj: (
         obj.isoformat()
@@ -161,7 +165,9 @@ def response(inp, userId):  # Returns the bot's response for "inp"
             package = extract_info.package(tree)
             if package != None:
                 print(package + " new package name")
-                del context[userId]
+                context[userId] = ""
+                while context[userId]!= "":
+                    pass
                 return "Okay, I'll activate " + package + " for you"
             else:
                 return "I'm sorry but that's not a valid package name. Please try again."
@@ -170,27 +176,37 @@ def response(inp, userId):  # Returns the bot's response for "inp"
             package = extract_info.package(tree)
             if package != None:
                 print(package + " change package name")
-                del context[userId]
+                context[userId] = ""
+                while context[userId]!= "":
+                    pass
                 return "Okay, I'll change your package to " + package
             else:
                 return "I'm sorry but that's not a valid package name. Please try again."
         elif context[userId] == "deactivate package":
             if "yes" in inp.lower():
-                del context[userId]
+                context[userId] = ""
+                while context[userId]!= "":
+                    pass
                 return "Okay. I will deactivate the package"
             else:
-                del context[userId]
+                context[userId] = ""
+                while context[userId]!= "":
+                    pass
                 return "Okay. Is there anything else I can help you with?"
         elif context[userId] == "no signal location":
             tree = prep_for_extract(inp)
             location = extract_info.low_signal_location(tree)
             if location:
-                del context[userId]
+                context[userId] = ""
+                while context[userId]!= "":
+                    pass
                 return "We will look into the loss of signal in " + location + ". Thank you for staying with our network."
             else:
                 return "I'm sorry, I didn't get that. Please try again."
         elif context[userId] == "continue":
-            del context[userId]
+            context[userId] = ""
+            while context[userId]!= "":
+                pass
             if "no" in inp.lower():
                 return "Goodbye"
         
@@ -213,6 +229,8 @@ def response(inp, userId):  # Returns the bot's response for "inp"
                     return "We will look into the loss of signal in " + location + ". Thank you for staying with our network."
                 else:
                     context[userId] = "no signal location"
+                    while context[userId]!= "no signal location":
+                        pass
                     return "Where did you face difficulties connecting to our network?"
             elif i['tag']=="change package":
                 package = extract_info.package(tree)
@@ -220,6 +238,8 @@ def response(inp, userId):  # Returns the bot's response for "inp"
                     return "Okay, I'll change your package to " + package
                 else:
                     context[userId] = "change package name"
+                    while context[userId]!= "change package name":
+                        pass
                     return "Which package do you want to change to?"
             elif i['tag']=="new package":
                 package = extract_info.package(tree)
@@ -227,6 +247,8 @@ def response(inp, userId):  # Returns the bot's response for "inp"
                     return "Okay, I'll activate " + package + " for you"
                 else:
                     context[userId] = "new package name"
+                    while context[userId]!= "new package name":
+                        pass
                     return "Which package do you want to activate?"
 
             responses = i["responses"]
