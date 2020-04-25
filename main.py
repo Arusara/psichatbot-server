@@ -30,6 +30,7 @@ def testGet():
 @app.route('/', methods=["POST"])
 @cross_origin()
 def chatbotReply():
+    global context
     message = request.get_json()
     messageText = message['message']
     userId = message['userId']
@@ -158,6 +159,7 @@ def prep_for_extract(message):  # Prepares the message for information extractio
 context = {}  # Holds the context for each user as a dictionary with key-value pairs as "userId": "context"
 
 def response(inp, userId):  # Returns the bot's response for "inp"
+    global context
 
     if userId in context.keys():
         if context[userId] == "new package name":
@@ -259,4 +261,4 @@ def response(inp, userId):  # Returns the bot's response for "inp"
         return "I'm sorry, I didn't get that. Please try again. Context:" + context[userId]
 
 
-#app.run(port=5000, debug=True)
+app.run(port=5000, debug=True)
