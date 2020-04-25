@@ -112,9 +112,9 @@ model = tflearn.DNN(net)
 
 """Change here to train Model after editing intents"""
 try:  # Loads the current model (if it exists)
-    # If the intents.json file has been changed, then comment out model.load("model.tflearn"), and bring back the 'raise Exception'
+    #If the intents.json file has been changed, then comment out model.load("model.tflearn"), and bring back the 'raise Exception'
     model.load("model.tflearn")
-    # raise Exception
+    #raise Exception
 except:
     model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
     model.save("model.tflearn")
