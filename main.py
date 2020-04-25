@@ -27,7 +27,7 @@ def testGet():
     return jsonify({"userId": 1,"isBot": True}), 200
 
 # POST /telecomchatbot
-@app.route('/telecomchatbot', methods=["POST"])
+@app.route('/', methods=["POST"])
 @cross_origin()
 def chatbotReply():
     message = request.get_json()
