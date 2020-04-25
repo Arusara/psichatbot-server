@@ -261,4 +261,4 @@ def response(inp, userId):  # Returns the bot's response for "inp"
         return "I'm sorry, I didn't get that. Please try again. Context:" + context[userId]
 
 
-app.run(port=5000, debug=True)
+#app.run(port=5000, debug=True)
