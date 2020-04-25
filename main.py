@@ -168,9 +168,9 @@ def response(inp, userId):  # Returns the bot's response for "inp"
                 context[userId] = ""
                 while context[userId]!= "":
                     pass
-                return "Okay, I'll activate " + package + " for you. Context:" + context[userId]"
+                return "Okay, I'll activate " + package + " for you. Context:" + context[userId]
             else:
-                return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId]"
+                return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId]
         elif context[userId] == "change package name":
             tree = prep_for_extract(inp)
             package = extract_info.package(tree)
