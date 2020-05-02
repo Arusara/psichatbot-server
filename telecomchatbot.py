@@ -1,3 +1,6 @@
+from warnings import simplefilter
+simplefilter(action='ignore', category=FutureWarning)
+
 # Language processing
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
@@ -7,45 +10,18 @@ import extract_info
 # Machine Learning
 import numpy
 import tflearn
-import tensorflow
 import random
 import json
 import pickle
 
-# Flask
-from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin
-from flask_restful import Resource, Api, reqparse
-import datetime
 
-app = Flask(__name__)
+from tensorflow.python.util import deprecation
+deprecation._PRINT_DEPRECATION_WARNINGS = False
 
-#GET /
-@app.route('/', methods=["GET"])
-@cross_origin()
-def testGet():
-    return jsonify({"userId": 1,"isBot": True}), 200
+import tensorflow
 
-# POST /telecomchatbot
-@app.route('/', methods=["POST"])
-@cross_origin()
-def chatbotReply():
-    global context
-    message = request.get_json()
-    messageText = message['message']
-    userId = message['userId']
-    if not userId in context.keys():
-        context[userId]=""
-    while userId not in context.keys():
-        pass
-    reply = response(messageText, userId)
-    date_handler = lambda obj: (
-        obj.isoformat()
-        if isinstance(obj, (datetime.datetime, datetime.date))
-        else None
-    )
-    ident = json.dumps(datetime.datetime.now(), default=date_handler).strip('"')
-    return jsonify({"userId": 1, "id": ident, "message": reply, "isBot": True}), 200
+
+tensorflow.compat.v1.logging.set_verbosity(tensorflow.compat.v1.logging.ERROR)
 
 
 with open("intents.json") as file:
@@ -158,7 +134,7 @@ def prep_for_extract(message):  # Prepares the message for information extractio
 
 context = {}  # Holds the context for each user as a dictionary with key-value pairs as "userId": "context"
 
-def response(inp, userId):  # Returns the bot's response for "inp"
+def response(inp, userId, user_context):  # Returns the bot's response for "inp"
     global context
 
     if userId in context.keys():
@@ -261,4 +237,3 @@ def response(inp, userId):  # Returns the bot's response for "inp"
         return "I'm sorry, I didn't get that. Please try again. Context:" + context[userId]
 
 
-#app.run(port=5000, debug=True)

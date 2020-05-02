@@ -16,12 +16,44 @@
          "patterns": ["I have low signal", "The connection is slow", "Internet is slow"],
          "responses": ["Ok. We will get on it."]
         },
+        
+
+        {"tag": "change data package",
+         "patterns": ["Can I change my data package", "I want a different data package", "I want to change my data package", "I want to change the data package", "Change data package"],
+         "responses": ["What data package do you want to change to?"]
+        },
+        {"tag": "new data package",
+         "patterns": ["I want to activate a new data package", "I want to activate a data package", "I want a new data package", "Activate data package", "I want to activate a package"],
+         "responses": ["Ok. I'll activate that package for you."]
+        },
+        {"tag": "deactivate data package",
+         "patterns": ["I want to deactivate my data package", "deactivate my data package", "I want to deactivate data package"],
+         "responses": ["Are you sure you want to deactivate your package?"],
+         "context_set": "deactivate data package"
+        },
+
+
+        {"tag": "change voice package",
+         "patterns": ["Can I change my voice package", "I want a different voice package", "I want to change my voice package", "I want to change the voice package", "Change voice package"],
+         "responses": ["What voice package do you want to change to?"]
+        },
+        {"tag": "new voice package",
+         "patterns": ["I want to activate a new voice package", "I want to activate a voice package", "I want a new voice package", "Activate voice package", "I want to activate a voice package"],
+         "responses": ["Ok. I'll activate that voice package for you."]
+        },
+        {"tag": "deactivate voice package",
+         "patterns": ["I want to deactivate my voice package", "deactivate my voice package", "I want to deactivate voice package"],
+         "responses": ["Are you sure you want to deactivate your package?"],
+         "context_set": "deactivate voice package"
+        },
+
+
         {"tag": "change package",
          "patterns": ["Can I change my package", "I want a different package", "I want to change my package", "I want to change the package", "Change package"],
          "responses": ["What package do you want to change to?"]
         },
         {"tag": "new package",
-         "patterns": ["I want to activate D99 package", "I want to activate a new package", "I want to activate a package", "I want a new package", "Activate package", "I want to activate a package"],
+         "patterns": ["I want to activate a new package", "I want to activate a package", "I want a new package", "Activate package", "I want to activate a package"],
          "responses": ["Ok. I'll activate that package for you."]
         },
         {"tag": "deactivate package",
@@ -29,6 +61,34 @@
          "responses": ["Are you sure you want to deactivate your package?"],
          "context_set": "deactivate package"
         },
+
+
+        {"tag": "data usage data",
+         "patterns": ["How much data have I used?", "How much data do I have left?", "How much data is remaining?", "View data usage", "I want to view my data usage"],
+         "responses": ["Here is your current data usage data."]
+        },
+        {"tag": "voice usage data",
+         "patterns": ["How many minutes of voice calls have I used?", "How many minutes of voice calls do I have left?", "How many minutes are remaining?", "View voice usage", "I want to view my voice usage", "How many minutes do I have left?"],
+         "responses": ["Here is your current voice usage data."]
+        },
+        {"tag": "usage data",
+         "patterns": ["How much have I used?", "View usage", "I want to view my usage"],
+         "responses": ["Here is your current usage data."]
+        },
+
+        {"tag": "request data package info",
+         "patterns": ["View data package info", "I'd like to know the details of data packages available", "I want to know the details of data packages available", "I want to know the data package details"],
+         "responses": ["Here are the data pacakge details."]
+        },
+        {"tag": "request voice package info",
+         "patterns": ["View voice package info", "I'd like to know the details of voice packages available", "I want to know the details of voice packages available", "I want to know the voice package details"],
+         "responses": ["Here are the voice package details."]
+        },
+        {"tag": "request package info",
+         "patterns": ["View D99 package info", "I'd like to know the details of the D99 package", "I'd like to know the details of the V99 package", "I want to know the details of the V99 package", "I want to know the details of the V99 package", "I want to know the D99 package details", "I want to know the V99 package details", "I want to know the details of data and voice packages"],
+         "responses": ["Here are the package details."]
+        },
+
         {"tag": "thanks",
          "patterns": ["Thank you", "Thanks"],
          "responses": ["You're welcome. Is there anything else I can help you with?"],
