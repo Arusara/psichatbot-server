@@ -49,4 +49,4 @@ def chatbotReply():
     return jsonify({"userId": 1, "id": ident, "message": reply, "isBot": True}), 200
     
 
-app.run(port=5000, debug=True)
+# app.run(port=5000, debug=True)
