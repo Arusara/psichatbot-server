@@ -132,11 +132,11 @@ def prep_for_extract(message):  # Prepares the message for information extractio
     tree = nltk.ne_chunk(sent)
     return tree
 
-context = {}  # Holds the context for each user as a dictionary with key-value pairs as "userId": "context"
+# context = {}  # Holds the context for each user as a dictionary with key-value pairs as "userId": "context"
 
-def response(inp, userId, user_context):  # Returns the bot's response for "inp"
-    global context
-
+def response(inp, userId, context_user):  # Returns the bot's response for "inp"
+    context={}
+    context[userId] = context_user
     if userId in context.keys():
         if context[userId] == "new package name":
             tree = prep_for_extract(inp)
@@ -146,9 +146,9 @@ def response(inp, userId, user_context):  # Returns the bot's response for "inp"
                 context[userId] = ""
                 while context[userId]!= "":
                     pass
-                return "Okay, I'll activate " + package + " for you. Context:" + context[userId]
+                return "Okay, I'll activate " + package + " for you. Context:" + context[userId], context[userId]
             else:
-                return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId]
+                return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId] , context[userId]
         elif context[userId] == "change package name":
             tree = prep_for_extract(inp)
             package = extract_info.package(tree)
@@ -157,20 +157,20 @@ def response(inp, userId, user_context):  # Returns the bot's response for "inp"
                 context[userId] = ""
                 while context[userId]!= "":
                     pass
-                return "Okay, I'll change your package to " + package +"Context:" + context[userId]
+                return "Okay, I'll change your package to " + package +"Context:" + context[userId], context[userId]
             else:
-                return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId]
+                return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId], context[userId]
         elif context[userId] == "deactivate package":
             if "yes" in inp.lower():
                 context[userId] = ""
                 while context[userId]!= "":
                     pass
-                return "Okay. I will deactivate the package"
+                return "Okay. I will deactivate the package", context[userId]
             else:
                 context[userId] = ""
                 while context[userId]!= "":
                     pass
-                return "Okay. Is there anything else I can help you with?"
+                return "Okay. Is there anything else I can help you with?", context[userId]
         elif context[userId] == "no signal location":
             tree = prep_for_extract(inp)
             location = extract_info.low_signal_location(tree)
@@ -178,15 +178,15 @@ def response(inp, userId, user_context):  # Returns the bot's response for "inp"
                 context[userId] = ""
                 while context[userId]!= "":
                     pass
-                return "We will look into the loss of signal in " + location + ". Thank you for staying with our network."
+                return "We will look into the loss of signal in " + location + ". Thank you for staying with our network.", context[userId]
             else:
-                return "I'm sorry, I didn't get that. Please try again."
+                return "I'm sorry, I didn't get that. Please try again.", context[userId]
         elif context[userId] == "continue":
             context[userId] = ""
             while context[userId]!= "":
                 pass
             if "no" in inp.lower():
-                return "Goodbye"
+                return "Goodbye", context[userId]
         
     i = classify(inp)
     if i:  # Checks whether the classification worked (If it didn't work, "i" would be "False")
@@ -204,36 +204,36 @@ def response(inp, userId, user_context):  # Returns the bot's response for "inp"
                 location = extract_info.low_signal_location(tree)
                 if location:
                     #context[userId] = "no signal description"
-                    return "We will look into the loss of signal in " + location + ". Thank you for staying with our network."
+                    return "We will look into the loss of signal in " + location + ". Thank you for staying with our network.", context[userId]
                 else:
                     context[userId] = "no signal location"
                     while context[userId]!= "no signal location":
                         pass
-                    return "Where did you face difficulties connecting to our network?"
+                    return "Where did you face difficulties connecting to our network?", context[userId]
             elif i['tag']=="change package":
                 package = extract_info.package(tree)
                 if package:
-                    return "Okay, I'll change your package to " + package
+                    return "Okay, I'll change your package to " + package, context[userId]
                 else:
                     context[userId] = "change package name"
                     while context[userId]!= "change package name":
                         pass
-                    return "Which package do you want to change to? Context:" + context[userId]
+                    return "Which package do you want to change to? Context:" + context[userId], context[userId]
             elif i['tag']=="new package":
                 package = extract_info.package(tree)
                 if package:
-                    return "Okay, I'll activate " + package + " for you"
+                    return "Okay, I'll activate " + package + " for you", context[userId]
                 else:
                     context[userId] = "new package name"
                     while context[userId]!= "new package name":
                         pass
-                    return "Which package do you want to activate? Context:" + context[userId]
+                    return "Which package do you want to activate? Context:" + context[userId], context[userId]
 
             responses = i["responses"]
-            return random.choice(responses)
+            return random.choice(responses),  context[userId]
         else:  # The context didn't match
-            return "I'm sorry, I didn't get that. Please try again. Context:" + context[userId]
+            return "I'm sorry, I didn't get that. Please try again. Context:" + context[userId], context[userId]
     else:  # The classification didn't work
-        return "I'm sorry, I didn't get that. Please try again. Context:" + context[userId]
+        return "I'm sorry, I didn't get that. Please try again. Context:" + context[userId], context[userId]
 
 

@@ -21,6 +21,7 @@ def low_signal(tree):
         while context[userId]!= "no signal location":
             pass
         return "Where did you face difficulties connecting to our network?"
+
 """Change packages"""
 def change_data_package(tree):
     package = extract_info.package(tree)
@@ -32,6 +33,17 @@ def change_data_package(tree):
         #     pass
         return "Which package do you want to change to? Context:" + context[userId]
 
+def change_data_package_name(tree):
+    package = extract_info.package(tree)
+    if package != None:
+        print(package + " change data package name")
+        context[userId] = ""
+        while context[userId]!= "":
+            pass
+        return "Okay, I'll change your data package to " + package +"Context:" + context[userId]
+    else:
+        return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId]
+
 def change_voice_package(tree):
     package = extract_info.package(tree)
     if package:
@@ -41,6 +53,17 @@ def change_voice_package(tree):
         # while context[userId]!= "change package name":
         #     pass
         return "Which package do you want to change to? Context:" + context[userId]
+
+def change_voice_package_name(tree):
+    package = extract_info.package(tree)
+    if package != None:
+        print(package + " change voice package name")
+        context[userId] = ""
+        while context[userId]!= "":
+            pass
+        return "Okay, I'll change your data package to " + package +"Context:" + context[userId]
+    else:
+        return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId]
 
 
 """Activate new packages"""
@@ -54,6 +77,17 @@ def new_data_package(tree):
             pass
         return "Which data package do you want to activate? "
 
+def new_data_package_name(tree):
+    package = extract_info.package(tree)
+    if package != None:
+        print(package + " new data package name")
+        context[userId] = ""
+        while context[userId]!= "":
+            pass
+        return "Okay, I'll activate " + package + " for you. Context:" + context[userId]
+    else:
+        return "I'm sorry but that's not a valid data package name. Please try again. Context:" + context[userId]
+
 def new_voice_package(tree):
     package = extract_info.package(tree)
     if package:
@@ -64,6 +98,17 @@ def new_voice_package(tree):
             pass
         return "Which voice package do you want to activate?"
 
+def new_voice_package_name(tree):
+    package = extract_info.package(tree)
+    if package != None:
+        print(package + " new voice package name")
+        context[userId] = ""
+        while context[userId]!= "":
+            pass
+        return "Okay, I'll activate " + package + " for you. Context:" + context[userId]
+    else:
+        return "I'm sorry but that's not a valid voice package name. Please try again. Context:" + context[userId]
+
 """Deactivate packages"""
 def deactivate_data_package():
     #deactivate data
@@ -71,3 +116,48 @@ def deactivate_data_package():
 def deactivate_voice_package():
     #deactivate voice
 
+def deactivate_data_confirmation(inp):
+    if "yes" in inp.lower():
+        deactivate_data_package()
+        context[userId] = ""
+        while context[userId]!= "":
+            pass
+        return "Okay. I will deactivate your data package"
+    else:
+        context[userId] = ""
+        while context[userId]!= "":
+            pass
+        return "Okay. Is there anything else I can help you with?"
+
+def deactivate_voice_confirmation(inp):
+    if "yes" in inp.lower():
+        deactivate_voice_package()
+        context[userId] = ""
+        while context[userId]!= "":
+            pass
+        return "Okay. I will deactivate your voice package"
+    else:
+        context[userId] = ""
+        while context[userId]!= "":
+            pass
+        return "Okay. Is there anything else I can help you with?"
+
+def deactivate_package_confirmation(inp):
+
+
+def deactivate_package(tree, inp):
+    if context[userId] = "deactivate package":
+        context[userId] = "deactivate package name"
+        while context[userId]!= "deactivate package name":
+            pass
+        return "Which package do you want to deactivate? Voice or Data? Context:" + context[userId]
+
+    else if context[userId] = "deactivate package name":
+        if inp = "Data":
+            deactivate_data_package()
+            context[userId] = ""
+        else if inp = "Voice":
+            deactivate_voice_package()
+            context[userId] = ""
+        else:
+            return "I'm sorry I didn't understand that. Could you please let me know which package Voice or Data you'd like to deactivate"

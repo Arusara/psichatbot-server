@@ -34,18 +34,19 @@ def chatbotReply():
     message = request.get_json()
     messageText = message['message']
     userId = message['userId']
+    context = message['context']
     # if not userId in context.keys():
     #     chatbot.context[userId]=""
     # while userId not in context.keys():
     #     pass
-    reply = chatbot.response(messageText, userId, " ")
+    reply, context = chatbot.response(messageText, userId, context)
     date_handler = lambda obj: (
         obj.isoformat()
         if isinstance(obj, (datetime.datetime, datetime.date))
         else None
     )
     ident = json.dumps(datetime.datetime.now(), default=date_handler).strip('"')
-    return jsonify({"userId": 1, "id": ident, "message": reply, "isBot": True}), 200
+    return jsonify({"userId": 1, "id": ident, "message": reply, "isBot": True, "context": context}), 200
     
 
-# app.run(port=5000, debug=True)
+app.run(port=5000, debug=True)
