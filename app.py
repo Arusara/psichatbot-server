@@ -18,18 +18,17 @@ authentication = auth.authentication
 
 app = Flask(__name__)
 
+CORS(app)
 
 app.register_blueprint(authentication, url_prefix="/api/auth")
 
 #GET /, test route
 @app.route('/', methods=["GET"])
-@cross_origin()
 def testGet():
     return jsonify({"userId": 1,"isBot": True}), 200
 
 # POST /telecom
 @app.route('/telecom', methods=["POST"])
-@cross_origin()
 def chatbotReply():
     # context = chatbot.context
     message = request.get_json()

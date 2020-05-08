@@ -7,7 +7,6 @@ authentication = Blueprint("authentication", __name__)
 
 
 @authentication.route("/register", methods=["POST"])
-@cross_origin()
 def register_user():
     first_name = request.json["first_name"]
     last_name = request.json["last_name"]
@@ -35,7 +34,6 @@ def register_user():
 
 
 @authentication.route("/login", methods=["POST"])
-@cross_origin()
 def login_user():
     print(request.json)
     user_email = request.json["email"]
