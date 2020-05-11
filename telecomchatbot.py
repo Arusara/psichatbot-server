@@ -15,11 +15,14 @@ import json
 import pickle
 
 
-from tensorflow.python.util import deprecation
-deprecation._PRINT_DEPRECATION_WARNINGS = False
+# from tensorflow.python.util import deprecation
+# deprecation._PRINT_DEPRECATION_WARNINGS = False
 
 import tensorflow
 
+
+#chatbot functions
+from chatbot_functions import new_data_package
 
 tensorflow.compat.v1.logging.set_verbosity(tensorflow.compat.v1.logging.ERROR)
 
@@ -228,6 +231,8 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
                     while context[userId]!= "new package name":
                         pass
                     return "Which package do you want to activate? Context:" + context[userId], context[userId]
+            elif i['tag']=="new data package":
+                return new_data_package(tree,context[userId], userId)
 
             responses = i["responses"]
             return random.choice(responses),  context[userId]
