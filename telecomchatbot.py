@@ -22,7 +22,9 @@ import tensorflow
 
 
 #chatbot functions
-from chatbot_functions import new_data_package
+from chatbot_functions import new_data_package, \
+    new_data_package_name,\
+    new_voice_package, new_voice_package_name
 
 tensorflow.compat.v1.logging.set_verbosity(tensorflow.compat.v1.logging.ERROR)
 
@@ -190,7 +192,20 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
                 pass
             if "no" in inp.lower():
                 return "Goodbye", context[userId]
-        
+        elif context[userId] == "new data package name":
+            if inp.lower() != "cancel":
+                tree = prep_for_extract(inp)
+                return new_data_package_name(tree, context[userId], userId)
+            else:
+                context[userId] = ""
+                return "Action cancelled", context[userId]
+        elif context[userId] == "new voice package name":
+            if inp.lower() != "cancel":
+                tree = prep_for_extract(inp)
+                return new_voice_package_name(tree, context[userId], userId)
+            else:
+                context[userId] = ""
+                return "Action cancelled", context[userId]
     i = classify(inp)
     if i:  # Checks whether the classification worked (If it didn't work, "i" would be "False")
         
@@ -233,6 +248,8 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
                     return "Which package do you want to activate? Context:" + context[userId], context[userId]
             elif i['tag']=="new data package":
                 return new_data_package(tree,context[userId], userId)
+            elif i['tag']=="new voice package":
+                return new_voice_package(tree,context[userId], userId)
 
             responses = i["responses"]
             return random.choice(responses),  context[userId]

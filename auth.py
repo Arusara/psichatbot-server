@@ -12,7 +12,7 @@ def register_user():
     last_name = request.json["last_name"]
     user_email = request.json["email"]
     user_password = request.json["password"]
-    created = datetime.datetime.utcnow()
+    created = datetime.datetime.now()
     # user_confirm_password = request.json["confirm_password"]
 
     if validate_user_input(

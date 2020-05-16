@@ -1,6 +1,7 @@
 from extract_info import ne_low_signal_location, ne_change_package, ne_package, ne_name, ne_data_package, ne_voice_package
 
-from package_management import check_data_package_name, get_data_packages, get_data_package, activate_package
+from package_management import check_data_package_name, get_data_packages,\
+get_data_package, activate_data_package, check_voice_package_name, get_voice_packages, activate_voice_package
 
 # def no_signal(tree):
 #     location = low_signal_location(tree)
@@ -88,7 +89,7 @@ def new_data_package(tree, user_context, user_id):
         data_packages_string+= i["name"] + ",\n "
     if package_name:
         if check_data_package_name(package_name):
-            return activate_package(package_name, user_id), user_context 
+            return activate_data_package(package_name, user_id), user_context 
         else:
             user_context = "new data package name"
             return "I'm sorry but that's not a valid data package. These are the available data packages \n" + data_packages_string, user_context
@@ -96,37 +97,51 @@ def new_data_package(tree, user_context, user_id):
         user_context = "new data package name"
         return "Which data package do you want to activate? \n" + data_packages_string, user_context
 
-# def new_data_package_name(tree):
-#     package = extract_info.package(tree)
-#     if package != None:
-#         print(package + " new data package name")
-#         context[userId] = ""
-#         while context[userId]!= "":
-#             pass
-#         return "Okay, I'll activate " + package + " for you. Context:" + context[userId]
-#     else:
-#         return "I'm sorry but that's not a valid data package name. Please try again. Context:" + context[userId]
+def new_data_package_name(tree,user_context, user_id):
+    package_name = ne_data_package(tree)
+    data_packages_list = get_data_packages()
+    data_packages_string=""
+    for i in data_packages_list: 
+        data_packages_string+= i["name"] + ",\n "
+    if package_name:
+        if check_data_package_name(package_name):
+            user_context = ""
+            return activate_data_package(package_name, user_id), user_context 
+        else:
+            return "I'm sorry but that's not a valid data package. These are the available data packages \n" + data_packages_string, user_context
+    else:
+        return "I'm sorry but that's not a valid data package name. Please try again. Context:" + user_context, user_context
 
-# def new_voice_package(tree):
-#     package = extract_info.package(tree)
-#     if package:
-#         return "Okay, I'll activate " + package + " for you"
-#     else:
-#         context[userId] = "new voice package name"
-#         while context[userId]!= "new voice package name":
-#             pass
-#         return "Which voice package do you want to activate?"
+def new_voice_package(tree, user_context, user_id):
+    package_name = ne_voice_package(tree)
+    voice_packages_list = get_voice_packages()
+    voice_packages_string=""
+    for i in voice_packages_list: 
+        voice_packages_string+= i["name"] + ",\n "
+    if package_name:
+        if check_voice_package_name(package_name):
+            return activate_voice_package(package_name, user_id), user_context 
+        else:
+            user_context = "new voice package name"
+            return "I'm sorry but that's not a valid voice package. These are the available voice packages \n" + voice_packages_string, user_context
+    else:
+        user_context = "new voice package name"
+        return "Which voice package do you want to activate? \n" + voice_packages_string, user_context
 
-# def new_voice_package_name(tree):
-#     package = extract_info.package(tree)
-#     if package != None:
-#         print(package + " new voice package name")
-#         context[userId] = ""
-#         while context[userId]!= "":
-#             pass
-#         return "Okay, I'll activate " + package + " for you. Context:" + context[userId]
-#     else:
-#         return "I'm sorry but that's not a valid voice package name. Please try again. Context:" + context[userId]
+def new_voice_package_name(tree,user_context, user_id):
+    package_name = ne_voice_package(tree)
+    voice_packages_list = get_voice_packages()
+    voice_packages_string=""
+    for i in voice_packages_list: 
+        voice_packages_string+= i["name"] + ",\n "
+    if package_name:
+        if check_voice_package_name(package_name):
+            user_context = ""
+            return activate_voice_package(package_name, user_id), user_context 
+        else:
+            return "I'm sorry but that's not a valid voice package. These are the available voice packages \n" + voice_packages_string, user_context
+    else:
+        return "I'm sorry but that's not a valid voice package name. Please try again. Context:" + user_context, user_context
 
 # def new_package(tree):
 #     package = extract_info.package(tree)

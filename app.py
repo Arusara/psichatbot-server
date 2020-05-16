@@ -12,6 +12,7 @@ import datetime
 import json
 from settings import MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB
 
+from utils import write_message, get_user_messages
 # from auth import authentication
 import auth
 authentication = auth.authentication
@@ -32,21 +33,28 @@ def testGet():
 def chatbotReply():
     # context = chatbot.context
     message = request.get_json()
+    id = message['id']
     messageText = message['message']
     userId = message['userId']
     context = message['context']
-    # if not userId in context.keys():
-    #     chatbot.context[userId]=""
-    # while userId not in context.keys():
-    #     pass
+    #write user message to database
+    write_message(id, userId, messageText, False, datetime.datetime.now())
     reply, context = chatbot.response(messageText, userId, context)
     date_handler = lambda obj: (
         obj.isoformat()
         if isinstance(obj, (datetime.datetime, datetime.date))
         else None
     )
-    ident = json.dumps(datetime.datetime.now(), default=date_handler).strip('"')
-    return jsonify({"userId": 1, "id": ident, "message": reply, "isBot": True, "context": context}), 200
+    ident = json.dumps(datetime.datetime.utcnow(), default=date_handler).strip('"')
+    #write chatbot reply to database
+    write_message(ident, userId, reply, True, datetime.datetime.now())
+    return jsonify({"userId": userId, "id": ident, "message": reply, "isBot": True, "context": context}), 200
     
+@app.route('/telecom/messages/<user_id>', methods=["GET"])
+def getMessages(user_id):
+    print(jsonify(get_user_messages(user_id)))
+    return jsonify(get_user_messages(user_id)), 200
+
+
 
 app.run(port=5000, debug=True)

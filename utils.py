@@ -98,3 +98,26 @@ def validate_user(email, password):
 
     else:
         return False
+
+
+def write_message(id, user_id, message, is_bot,date_time):
+    if db_write("""INSERT into telecom_chatbot_messages (id, user_id, message, isBot, date_time) VALUES (%s, %s, %s, %s,%s)""", 
+    (id, user_id, message, is_bot, date_time),
+    ):
+        print("Successfully written to db")
+        return True
+
+    else:
+        return False
+
+def get_user_messages(user_id):
+    messages = db_read("""SELECT * FROM telecom_chatbot_messages WHERE user_id = %s""", (user_id,))
+    for message in messages:
+        if message["isBot"] == 0:
+            message["isBot"] = False
+        elif message["isBot"] == 1:
+            message["isBot"] = True
+    messages_dict ={}
+    messages_dict["messages"] = messages 
+    return messages_dict
+

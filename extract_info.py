@@ -22,15 +22,26 @@ def ne_package(t):  # Get the package name from the message
         if isinstance(child, nltk.tree.Tree):
             return (child[0][0])
 
-def ne_data_package(t):  # Get the package name from the message
-    for child in t:
-        if child[1] == "NNP":
-            return child[0]
+def ne_data_package(t):  # Get the data package name from the message
+    try:
+        for child in t:
+            if child[1] == "NNP":
+                return child[0]
+    except:
+        for child in t:
+            if isinstance(child, nltk.tree.Tree):
+                return (child[0][0])
+    
 
-def ne_voice_package(t):  # Get the package name from the message
-    for child in t:
-        if child[1] == "NNP":
-            return child[0]
+def ne_voice_package(t):  # Get the voice package name from the message
+    try:
+        for child in t:
+            if child[1] == "NNP":
+                return child[0]
+    except:
+        for child in t:
+            if isinstance(child, nltk.tree.Tree):
+                return (child[0][0])
 
 def ne_low_signal_location(t):  # Get the location from the message
     for child in t:
@@ -52,7 +63,7 @@ if __name__=="__main__":
     sent6 = "I want to change my package to D99"
 
     # Change the sentence here
-    sent = "I want to activate D49 data package"
+    sent = "I want to activate D99 data package"
     # sent = sent2
 
     sent = nltk.word_tokenize(sent)  # Splits the sentence by word
