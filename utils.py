@@ -92,12 +92,12 @@ def validate_user(email, password):
                 "last_name": last_name,
                 "email": user_email
                 })
-            return jwt_token
+            return jwt_token, ""
         else:
-            return False
+            return False, "password"
 
     else:
-        return False
+        return False, "email"
 
 
 def write_message(id, user_id, message, is_bot,date_time):

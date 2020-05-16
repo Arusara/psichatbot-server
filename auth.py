@@ -39,12 +39,16 @@ def login_user():
     user_email = request.json["email"]
     user_password = request.json["password"]
 
-    user_token = validate_user(user_email, user_password)
+    user_token, error_string = validate_user(user_email, user_password)
 
     if user_token:
         print(user_token)
         return jsonify({"jwt_token": user_token, "message": "Successfully logged in: " + user_email})
     else:
-        Response(status=401)
+        if error_string=="email":
+            return jsonify({"error": "email"}), 401
+
+        elif error_string=="password":
+            return jsonify({"error": "password"}), 401
 
     
