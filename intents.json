@@ -9,11 +9,10 @@
          "responses": ["Talk to you later", "Goodbye!"]
         },
         {"tag": "no signal",
-         "patterns": ["I am not getting signal", "There is no connection", "My connection is gone", "There isn't any signal", "There is no signal", "I have no signal", "I can't connect to the network"]
+         "patterns": ["I am not getting signal", "There is no connection", "My connection is gone", "There isn't any signal", "There is no signal", "I have no signal", "I can't connect to the network", "Loss of signal"]
         },
         {"tag": "low signal",
-         "patterns": ["I have low signal", "The connection is slow", "Internet is slow"],
-         "responses": ["Ok. We will get on it."]
+         "patterns": ["I have low signal", "The connection is slow", "Internet is slow", "Weak Signal", "The signal is weak", "Signal is poor", "Internet speeds are poor"]
         },
         
 
@@ -26,8 +25,8 @@
          "responses": ["Ok. I'll activate that data package for you."]
         },
         {"tag": "deactivate data package",
-         "patterns": ["I want to deactivate my data package", "deactivate my data package", "I want to deactivate data package"],
-         "responses": ["Are you sure you want to deactivate your package?"],
+         "patterns": ["I want to deactivate my data package", "deactivate my data package", "I want to deactivate data package", "deactivate voice package"],
+         "responses": ["Are you sure you want to deactivate your data package?"],
          "context_set": "deactivate data package"
         },
 
@@ -41,8 +40,8 @@
          "responses": ["Ok. I'll activate that voice package for you."]
         },
         {"tag": "deactivate voice package",
-         "patterns": ["I want to deactivate my voice package", "deactivate my voice package", "I want to deactivate voice package"],
-         "responses": ["Are you sure you want to deactivate your package?"],
+         "patterns": ["I want to deactivate my voice package", "deactivate my voice package", "I want to deactivate voice package", "deactivate voice package"],
+         "responses": ["Are you sure you want to deactivate your voice package?"],
          "context_set": "deactivate voice package"
         },
 
@@ -56,23 +55,20 @@
          "responses": ["Ok. I'll activate that package for you."]
         },
         {"tag": "deactivate package",
-         "patterns": ["I want to deactivate my package", "deactivate my package", "I want to deactivate package"],
-         "responses": ["Are you sure you want to deactivate your package?"],
+         "patterns": ["I want to deactivate my package", "deactivate my package", "I want to deactivate package", "deactivate package"],
+         "responses": ["Which package do you want to deactivate? Voice or Data?"],
          "context_set": "deactivate package"
         },
 
 
         {"tag": "data usage data",
-         "patterns": ["How much data have I used?", "How much data do I have left?", "How much data is remaining?", "View data usage", "I want to view my data usage", "What's my data usage?", "What is my data usage?", "Can you show me my data usage?"],
-         "responses": ["Here is your current data usage data."]
+         "patterns": ["How much data have I used?", "How much data do I have left?", "How much data is remaining?", "View data usage", "I want to view my data usage", "What's my data usage?", "What is my data usage?", "Can you show me my data usage?", "data usage data", "Show me my data package usage"]
         },
         {"tag": "voice usage data",
-         "patterns": ["How many minutes of voice calls have I used?", "How many minutes of voice calls do I have left?", "How many minutes are remaining?", "View voice usage", "I want to view my voice usage", "How many minutes do I have left?", "What is my voice usage?", "Can you show me my voice usage?"],
-         "responses": ["Here is your current voice usage data."]
+         "patterns": ["How many minutes of voice calls have I used?", "How many minutes of voice calls do I have left?", "How many minutes are remaining?", "View voice usage", "I want to view my voice usage", "How many minutes do I have left?", "What is my voice usage?", "Can you show me my voice usage?", "voice usage data", "Show me my voice package usage"]
         },
         {"tag": "usage data",
-         "patterns": ["How much have I used?", "View usage", "I want to view my usage", "What's my usage?", "What is my usage?", "Can you show me my usage?"],
-         "responses": ["Here is your current usage data."]
+         "patterns": ["How much have I used?", "View usage", "I want to view my usage", "What's my usage?", "What is my usage?", "Can you show me my usage?"]
         },
 
         {"tag": "request data package info",

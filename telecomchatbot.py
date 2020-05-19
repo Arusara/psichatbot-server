@@ -24,7 +24,11 @@ import tensorflow
 #chatbot functions
 from chatbot_functions import new_data_package, \
     new_data_package_name,\
-    new_voice_package, new_voice_package_name
+    new_voice_package, new_voice_package_name,\
+    deactivate_data_confirmation, deactivate_voice_confirmation, deactivate_package,\
+    no_signal, no_signal_location, low_signal, low_signal_location,\
+    data_usage_data, voice_usage_data, usage_data
+
 
 tensorflow.compat.v1.logging.set_verbosity(tensorflow.compat.v1.logging.ERROR)
 
@@ -166,30 +170,9 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
             else:
                 return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId], context[userId]
         elif context[userId] == "deactivate package":
-            if "yes" in inp.lower():
-                context[userId] = ""
-                while context[userId]!= "":
-                    pass
-                return "Okay. I will deactivate the package", context[userId]
-            else:
-                context[userId] = ""
-                while context[userId]!= "":
-                    pass
-                return "Okay. Is there anything else I can help you with?", context[userId]
-        elif context[userId] == "no signal location":
-            tree = prep_for_extract(inp)
-            location = extract_info.low_signal_location(tree)
-            if location:
-                context[userId] = ""
-                while context[userId]!= "":
-                    pass
-                return "We will look into the loss of signal in " + location + ". Thank you for staying with our network.", context[userId]
-            else:
-                return "I'm sorry, I didn't get that. Please try again.", context[userId]
+            return deactivate_package(inp, userId, context[userId])
         elif context[userId] == "continue":
             context[userId] = ""
-            while context[userId]!= "":
-                pass
             if "no" in inp.lower():
                 return "Goodbye", context[userId]
         elif context[userId] == "new data package name":
@@ -206,6 +189,16 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
             else:
                 context[userId] = ""
                 return "Action cancelled", context[userId]
+        elif context[userId] == "deactivate data package":
+            return deactivate_data_confirmation(inp, userId, context[userId])
+        elif context[userId] == "deactivate voice package":
+            return deactivate_voice_confirmation(inp, userId, context[userId])
+        elif context[userId] == "no signal location":
+            tree = prep_for_extract(inp)
+            return no_signal_location(tree,userId, context[userId])
+        elif context[userId] == "low signal location":
+            tree = prep_for_extract(inp)
+            return low_signal_location(tree,userId, context[userId])
     i = classify(inp)
     if i:  # Checks whether the classification worked (If it didn't work, "i" would be "False")
         
@@ -219,15 +212,9 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
             # Information extraction
             tree = prep_for_extract(inp)
             if i['tag']=="no signal":
-                location = extract_info.low_signal_location(tree)
-                if location:
-                    #context[userId] = "no signal description"
-                    return "We will look into the loss of signal in " + location + ". Thank you for staying with our network.", context[userId]
-                else:
-                    context[userId] = "no signal location"
-                    while context[userId]!= "no signal location":
-                        pass
-                    return "Where did you face difficulties connecting to our network?", context[userId]
+                return no_signal(tree, userId, context[userId])
+            elif i['tag']=="low signal":
+                return low_signal(tree, userId, context[userId])
             elif i['tag']=="change package":
                 package = extract_info.package(tree)
                 if package:
@@ -250,6 +237,12 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
                 return new_data_package(tree,context[userId], userId)
             elif i['tag']=="new voice package":
                 return new_voice_package(tree,context[userId], userId)
+            elif i['tag']=="data usage data":
+                return data_usage_data(userId), context[userId]
+            elif i['tag']=="voice usage data":
+                return voice_usage_data(userId), context[userId]
+            elif i['tag']=="usage data":
+                return usage_data(userId), context[userId]
 
             responses = i["responses"]
             return random.choice(responses),  context[userId]
