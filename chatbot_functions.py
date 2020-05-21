@@ -248,3 +248,9 @@ def usage_data(user_id):
                 "-----------------------------------\n"+\
             voice_usage
     return usage
+
+##CHATBOT FUNCTIONS
+# def chatbot_functions_detail():
+#     functions = "Here are some of the things you can do with the chatbot.\n"+\
+#                 "1. Activate, Change or Deactivate data or voice packages\n"+\
+#                 "Eg: I want to activate <package name> data package. I want to change my voice package

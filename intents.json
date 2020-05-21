@@ -8,6 +8,9 @@
          "patterns": ["See you later", "Goodbye", "Have a Good day", "bye"],
          "responses": ["Talk to you later", "Goodbye!"]
         },
+        {"tag":"chatbot function",
+         "patterns": ["What can you do?", "Show me what you can do", "What are your functions"]
+        },
         {"tag": "no signal",
          "patterns": ["I am not getting signal", "There is no connection", "My connection is gone", "There isn't any signal", "There is no signal", "I have no signal", "I can't connect to the network", "Loss of signal"]
         },
