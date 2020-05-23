@@ -1,11 +1,10 @@
 from utils import db_read, db_write
 import datetime 
 
-# def deactivate_package():
 ##DATA PACKAGES
 def activate_data_package(name, user_id):
     package_id = get_data_package(name)["id"]
-    activated_date = datetime.datetime.utcnow()
+    activated_date = datetime.datetime.now()
     if not check_data_package_already_activated(user_id):
         if db_write("""INSERT INTO user_data_package (package_id, user_id, package_name, activated_date) VALUES (%s, %s, %s, %s)""",(package_id, user_id, name, activated_date)):
             remaining_data = get_data_package(name)["data"]
@@ -15,6 +14,19 @@ def activate_data_package(name, user_id):
     
     else:
         return "You have already activated a package. Please opt to change your package instead."
+
+def change_data_package(name, user_id):
+    package_id = get_data_package(name)["id"]
+    activated_date = datetime.datetime.now()
+    if check_data_package_already_activated(user_id):
+        if db_write("""UPDATE user_data_package SET package_id=%s, package_name=%s, data_used=%s, activated_date=%s WHERE user_id=%s""",(package_id, name, 0, activated_date, user_id)):
+            remaining_data = get_data_package(name)["data"]
+            return " Your data package has been successfully changed to "+name+". You now have " +str(remaining_data)+ "MB reamining"
+        else:
+            return "Failed to change data package. Please try again"
+    else:
+        return "You have no currently activated data package. Please opt to activate a new package instead."
+                
 
 def deactivate_data_package(user_id):
     if check_data_package_already_activated(user_id):
@@ -30,7 +42,7 @@ def deactivate_data_package(user_id):
 ##VOICE PACKAGES
 def activate_voice_package(name, user_id):
     package_id = get_voice_package(name)["id"]
-    activated_date = datetime.datetime.utcnow()
+    activated_date = datetime.datetime.now()
     if not check_voice_package_already_activated(user_id):
         if db_write("""INSERT INTO user_voice_package (package_id, user_id, package_name, activated_date) VALUES (%s, %s, %s, %s)""",(package_id, user_id, name, activated_date)):
             remaining_minutes = get_voice_package(name)["minutes"]
@@ -40,6 +52,19 @@ def activate_voice_package(name, user_id):
     
     else:
         return "You have already activated a voice package. Please opt to change your package instead."
+
+def change_voice_package(name, user_id):
+    package_id = get_voice_package(name)["id"]
+    activated_date = datetime.datetime.now()
+    if check_voice_package_already_activated(user_id):
+        if db_write("""UPDATE user_voice_package SET package_id=%s, package_name=%s, minutes_used=%s, activated_date=%s WHERE user_id=%s""",(package_id, name, 0, activated_date, user_id)):
+            remaining_minutes = get_voice_package(name)["minutes"]
+            return " Your voice package has been successfully changed to "+name+". You now have " +str(remaining_minutes)+ " minutes reamining"
+        else:
+            return "Failed to change voice package. Please try again"
+    else:
+        return "You have no currently activated voice package. Please opt to activate a new package instead."
+
 
 def deactivate_voice_package(user_id):
     if  check_voice_package_already_activated(user_id):

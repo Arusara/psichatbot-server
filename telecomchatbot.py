@@ -27,7 +27,11 @@ from chatbot_functions import new_data_package, \
     new_voice_package, new_voice_package_name,\
     deactivate_data_confirmation, deactivate_voice_confirmation, deactivate_package,\
     no_signal, no_signal_location, low_signal, low_signal_location,\
-    data_usage_data, voice_usage_data, usage_data
+    data_usage_data, voice_usage_data, usage_data,\
+    chatbot_functions_detail,\
+    get_data_package_info, get_voice_package_info, get_package_details,\
+    change_data_package_function, change_voice_package_function,\
+    change_data_package_name, change_voice_package_name
 
 
 tensorflow.compat.v1.logging.set_verbosity(tensorflow.compat.v1.logging.ERROR)
@@ -199,6 +203,17 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
         elif context[userId] == "low signal location":
             tree = prep_for_extract(inp)
             return low_signal_location(tree,userId, context[userId])
+        elif context[userId] == "change data package name":
+            tree = prep_for_extract(inp)
+            return change_data_package_name(tree, context[userId], userId)
+        elif context[userId] == "change voice package name":
+            tree = prep_for_extract(inp)
+            return change_voice_package_name(tree, context[userId], userId)
+
+
+
+
+
     i = classify(inp)
     if i:  # Checks whether the classification worked (If it didn't work, "i" would be "False")
         
@@ -211,7 +226,9 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
 
             # Information extraction
             tree = prep_for_extract(inp)
-            if i['tag']=="no signal":
+            if i['tag']=="greeting":
+                return "Hi there, how can I help you?\n\n" + chatbot_functions_detail(), context[userId]
+            elif i['tag']=="no signal":
                 return no_signal(tree, userId, context[userId])
             elif i['tag']=="low signal":
                 return low_signal(tree, userId, context[userId])
@@ -243,6 +260,21 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
                 return voice_usage_data(userId), context[userId]
             elif i['tag']=="usage data":
                 return usage_data(userId), context[userId]
+            elif i['tag']=="chatbot functions":
+                return chatbot_functions_detail(), context[userId]
+            elif i['tag']=="request data package info":
+                return get_data_package_info(), context[userId]
+            elif i['tag']=="request voice package info":
+                return get_voice_package_info(), context[userId]
+            elif i['tag']=="request package info":
+                return get_package_details(tree, context[userId])
+            elif i['tag']=="change data package":
+                return change_data_package_function(tree, context[userId], userId)
+            elif i['tag']=="change voice package":
+                return change_voice_package_function(tree, context[userId], userId)
+
+
+
 
             responses = i["responses"]
             return random.choice(responses),  context[userId]
