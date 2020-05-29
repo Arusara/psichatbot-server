@@ -164,14 +164,14 @@ def new_data_package_name(tree,user_context, user_id):
         else:
             return "I'm sorry but that's not a valid data package. These are the available data packages \n" + data_packages_string, user_context
     else:
-        return "I'm sorry but that's not a valid data package name. Please try again. Context:" + user_context, user_context
+        return "I'm sorry but that's not a valid data package name. Please try again.", user_context
 
 def new_voice_package(tree, user_context, user_id):
     package_name = ne_voice_package(tree)
     voice_packages_list = get_voice_packages()
     voice_packages_string=""
     for i in voice_packages_list: 
-        voice_packages_string+= i["name"] +"-("+ str(i["minutes"]) + "minutes, "+str(i["valid_period"]).split(".")[0] +"days)\n"
+        voice_packages_string+= i["name"] +"-("+ str(int(i["minutes"])) + "minutes, "+str(i["valid_period"]).split(".")[0] +"days)\n"
     if package_name:
         if check_voice_package_name(package_name):
             return activate_voice_package(package_name, user_id), user_context 
@@ -187,7 +187,7 @@ def new_voice_package_name(tree,user_context, user_id):
     voice_packages_list = get_voice_packages()
     voice_packages_string=""
     for i in voice_packages_list: 
-        voice_packages_string+= i["name"] +"-("+ str(i["minutes"]) + "minutes, "+str(i["valid_period"]).split(".")[0] +"days)\n"
+        voice_packages_string+= i["name"] +"-("+ str(int(i["minutes"])) + "minutes, "+str(i["valid_period"]).split(".")[0] +"days)\n"
     if package_name:
         if check_voice_package_name(package_name):
             user_context = ""
@@ -195,7 +195,7 @@ def new_voice_package_name(tree,user_context, user_id):
         else:
             return "I'm sorry but that's not a valid voice package. These are the available voice packages \n" + voice_packages_string, user_context
     else:
-        return "I'm sorry but that's not a valid voice package name. Please try again. Context:" + user_context, user_context
+        return "I'm sorry but that's not a valid voice package name. Please try again.", user_context
 
 # def new_package(tree):
 #     package = extract_info.package(tree)
@@ -308,13 +308,13 @@ def get_package_details(tree, user_context):
 ##CHATBOT FUNCTIONS
 def chatbot_functions_detail():
     functions = "Here are some of the things I can do.\n"+\
-                "1. Activate, Change or Deactivate data or voice packages\n"+\
+                "1. Activate, Change or Deactivate data or voice packages.\n"+\
                 "   Eg: I want to activate <package name> data package. I want to change my voice package. I want to deactivate my data package.\n\n" +\
-                "2. Complain about the loss of signal or low signal\n"+\
-                "   Eg: There is no signal. I am not getting any signal. Internet is slow. The signal is weak\n\n"+\
-                "3. View usage data\n"+\
-                "   Eg: View data usage. How many minutes do I have left? Show me my voice package usage\n\n"+\
-                "4. View package information\n"+\
-                "   Eg: Show me the details of data packages. Show me the details of <package name> package. Show me the details of packages\n"
+                "2. Complain about the loss of signal or low signal.\n"+\
+                "   Eg: There is no signal. I am not getting any signal. Internet is slow. The signal is weak.\n\n"+\
+                "3. View usage data.\n"+\
+                "   Eg: View data usage. How many minutes do I have left? Show me my voice package usage.\n\n"+\
+                "4. View package information.\n"+\
+                "   Eg: Show me the details of data packages. Show me the details of <package name> package. Show me the details of packages.\n"
                 
     return functions

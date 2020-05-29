@@ -65,10 +65,10 @@
 
 
         {"tag": "data usage data",
-         "patterns": ["How much data have I used?", "How much data do I have left?", "How much data is remaining?", "View data usage", "I want to view my data usage", "What's my data usage?", "What is my data usage?", "Can you show me my data usage?", "data usage data", "Show me my data package usage"]
+         "patterns": ["How much data have I used?", "How much data do I have left?", "How much data is remaining?", "View data usage", "I want to view my data usage", "What's my data usage?", "What is my data usage?", "Can you show me my data usage?", "data usage data", "Show me my data package usage", "Show me my data usage details.", "Show me data package usage details"]
         },
         {"tag": "voice usage data",
-         "patterns": ["How many minutes of voice calls have I used?", "How many minutes of voice calls do I have left?", "How many minutes are remaining?", "View voice usage", "I want to view my voice usage", "How many minutes do I have left?", "What is my voice usage?", "Can you show me my voice usage?", "voice usage data", "Show me my voice package usage"]
+         "patterns": ["How many minutes of voice calls have I used?", "How many minutes of voice calls do I have left?", "How many minutes are remaining?", "View voice usage", "I want to view my voice usage", "How many minutes do I have left?", "What is my voice usage?", "Can you show me my voice usage?", "voice usage data", "Show me my voice package usage", "Show me my voice package usage details", "Show me my voice usage details"]
         },
         {"tag": "usage data",
          "patterns": ["How much have I used?", "View usage", "I want to view my usage", "What's my usage?", "What is my usage?", "Can you show me my usage?"]
