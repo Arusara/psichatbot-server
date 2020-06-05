@@ -1,47 +1,90 @@
-from settings import JWT_SECRET_KEY
+import mysql.connector
+from mysql.connector import errorcode
 from flask_mysqldb import MySQLdb
 from hashlib import pbkdf2_hmac
-
-from database.database import db
-
-
 import os
 import jwt
 
+from database.database import db
+from settings import JWT_SECRET_KEY, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB, MYSQL_HOST
+
 
 def db_read(query, params=None):
-    # cursor = db.connection.cursor()
-    cursor = db.cursor(dictionary=True)
-    if params:
-        cursor.execute(query, params)
+    try:
+        cnx = mysql.connector.connect(
+                host=MYSQL_HOST,
+                user=MYSQL_USER,
+                password=MYSQL_PASSWORD,
+                database=MYSQL_DB
+                )
+        cursor = cnx.cursor(dictionary=True)
+        if params:
+            cursor.execute(query, params)
+        else:
+            cursor.execute(query)
+
+        entries = cursor.fetchall()
+        cursor.close()
+        cnx.close()
+
+        content = []
+
+        for entry in entries:
+            content.append(entry)
+
+        return content
+
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("User authorization error")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print("Database doesn't exist")
+        else:
+            print(err)
     else:
-        cursor.execute(query)
-
-    entries = cursor.fetchall()
-    cursor.close()
-
-    content = []
-
-    for entry in entries:
-        content.append(entry)
-
-    return content
+        cnx.close()
+    finally:
+        if cnx.is_connected():
+            cursor.close()
+            cnx.close()
+            print("Connection closed")
 
 
 def db_write(query, params):
-    # cursor = db.connection.cursor()
-    cursor = db.cursor(dictionary=True)
     try:
-        cursor.execute(query, params)
-        # db.connection.commit()
-        db.commit()
-        cursor.close()
+        cnx = mysql.connector.connect(
+                host=MYSQL_HOST,
+                user=MYSQL_USER,
+                password=MYSQL_PASSWORD,
+                database=MYSQL_DB
+                )
+        cursor = cnx.cursor(dictionary=True)
+        try:
+            cursor.execute(query, params)
+            # db.connection.commit()
+            db.commit()
+            cursor.close()
 
-        return True
+            return True
 
-    except MySQLdb._exceptions.IntegrityError:
-        cursor.close()
-        return False
+        except MySQLdb._exceptions.IntegrityError:
+            cursor.close()
+            return False
+
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("User authorization error")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print("Database doesn't exist")
+        else:
+            print(err)
+    else:
+        cnx.close()
+    finally:
+        if cnx.is_connected():
+            cursor.close()
+            cnx.close()
+            print("Connection closed")
 
 
 def generate_salt():
