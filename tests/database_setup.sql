@@ -102,6 +102,14 @@ INSERT INTO `telecom_chatbot_messages` (`id`, `user_id`, `message`, `isBot`, `da
 ('2020-05-23T09:46:47.234294', 2, 'Hi there, how can I help you?\n\nHere are some of the things I can do.\n1. Activate, Change or Deactivate data or voice packages\n   Eg: I want to activate <package name> data package. I want to change my voice package. I want to deactivate my data package.\n\n2. Complain about the loss of signal or low signal\n   Eg: There is no signal. I am not getting any signal. Internet is slow. The signal is weak\n\n3. View usage data\n   Eg: View data usage. How many minutes do I have left? Show me my voice package usage\n\n4. View package information\n   Eg: Show me the details of data packages. Show me the details of <package name> package. Show me the details of packages\n', 1, '2020-05-23 15:16:47'),
 ('2020-05-23T10:27:16.781Z', 2, 'Hi', 0, '2020-05-23 15:57:17');
 
+INSERT INTO `user_data_package` (`package_id`, `user_id`, `package_name`, `data_used`, `activated_date`) VALUES
+(1, 3, 1, 'D99', 0),
+(2, 6, 2, 'D499', 0);
+
+INSERT INTO `user_voice_package` (`package_id`, `user_id`, `package_name`, `minutes_used`, `activated_date`) VALUES
+(1, 3, 1, 'V100', 0),
+(2, 4, 2, 'V200', 0);
+
 
 
 

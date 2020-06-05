@@ -8,15 +8,17 @@ import jwt
 from database.database import db
 from settings import JWT_SECRET_KEY, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB, MYSQL_HOST
 
+config = {
+    'host': MYSQL_HOST,
+    'user': MYSQL_USER,
+    'password': MYSQL_PASSWORD,
+    'database': MYSQL_DB
+}
+
 
 def db_read(query, params=None):
     try:
-        cnx = mysql.connector.connect(
-                host=MYSQL_HOST,
-                user=MYSQL_USER,
-                password=MYSQL_PASSWORD,
-                database=MYSQL_DB
-                )
+        cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor(dictionary=True)
         if params:
             cursor.execute(query, params)
@@ -50,25 +52,20 @@ def db_read(query, params=None):
             print("Connection closed")
 
 
-def db_write(query, params):
+def db_write(query, params=None):
     try:
-        cnx = mysql.connector.connect(
-                host=MYSQL_HOST,
-                user=MYSQL_USER,
-                password=MYSQL_PASSWORD,
-                database=MYSQL_DB
-                )
+        cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor(dictionary=True)
         try:
             cursor.execute(query, params)
-            # db.connection.commit()
-            db.commit()
+            cnx.commit()
             cursor.close()
-
+            cnx.close()
             return True
 
         except MySQLdb._exceptions.IntegrityError:
             cursor.close()
+            cnx.close()
             return False
 
     except mysql.connector.Error as err:
@@ -78,8 +75,10 @@ def db_write(query, params):
             print("Database doesn't exist")
         else:
             print(err)
+        return False
     else:
         cnx.close()
+        return False
     finally:
         if cnx.is_connected():
             cursor.close()
@@ -153,14 +152,16 @@ def write_message(id, user_id, message, is_bot,date_time):
     else:
         return False
 
+
 def get_user_messages(user_id):
-    messages = db_read("""SELECT * FROM telecom_chatbot_messages WHERE user_id = %s""", (user_id,))
+    messages = db_read("""SELECT * FROM
+                        (SELECT * FROM telecom_chatbot_messages WHERE user_id = %s ORDER BY id DESC LIMIT 20)
+                        sub ORDER BY id ASC""", (user_id,))
     for message in messages:
         if message["isBot"] == 0:
             message["isBot"] = False
         elif message["isBot"] == 1:
             message["isBot"] = True
-    messages_dict ={}
-    messages_dict["messages"] = messages 
+    messages_dict = {"messages": messages}
     return messages_dict
 
