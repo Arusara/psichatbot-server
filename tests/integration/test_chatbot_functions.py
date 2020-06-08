@@ -98,10 +98,10 @@ class TestChatbotFunctions(MockDB):
 
     def test_change_voice_package_name(self):
         with self.mock_db_config:
-            tree = Tree('S', [Tree('GPE', [('V100', 'NN')])])
+            tree = Tree('S', [Tree('GPE', [('V20', 'NN')])])
             self.assertEqual(chatbot_functions.change_voice_package_name(tree, "", 1)[0],
-                             "Your voice package has been successfully changed to V100. " +
-                             "You now have 200.0 minutes remaining.")
+                             "Your voice package has been successfully changed to V20. " +
+                             "You now have 30.0 minutes remaining.")
             tree = Tree('S', [Tree('GPE', [('V150', 'NN')])])
             self.assertEqual(chatbot_functions.change_voice_package_name(tree, "", 1)[0],
                              "I'm sorry but that's not a valid voice package. " +
@@ -135,27 +135,105 @@ class TestChatbotFunctions(MockDB):
                              "D649-(8500.0MB, 30days)\n"
                              )
 
-    # def test_new_data_package_name(self):
-    #     with self.mock_db_config:
+    def test_new_data_package_name(self):
+        with self.mock_db_config:
+            tree = Tree('S', [('D99', 'NNP')])
+            self.assertEqual(chatbot_functions.new_data_package_name(tree, "new data package name", 6)[0],
+                             "D99 package has been successfully activated. You now have 1000.0MB remaining")
+            tree = Tree('S', [('D150', 'NNP')])
+            self.assertEqual(chatbot_functions.new_data_package_name(tree, "new data package name", 6)[0],
+                             "I'm sorry but that's not a valid data package. These are the available data packages \n" +
+                             "D29-(200.0MB, 2days)\nD49-(400.0MB, 7days)\nD99-(1000.0MB, 21days)\n" +
+                             "D199-(2000.0MB, 30days)\nD349-(4000.0MB, 30days)\nD499-(6000.0MB, 30days)\n" +
+                             "D649-(8500.0MB, 30days)\n"
+                             )
+            tree = Tree('S', [('no', 'DT'), ('package', 'NN'), ('name', 'NN')])
+            self.assertEqual(chatbot_functions.new_data_package_name(tree, "new data package name", 6)[0],
+                             "I'm sorry but that's not a valid data package name. Please try again. " +
+                             "These are the available data packages \n" +
+                             "D29-(200.0MB, 2days)\nD49-(400.0MB, 7days)\nD99-(1000.0MB, 21days)\n" +
+                             "D199-(2000.0MB, 30days)\nD349-(4000.0MB, 30days)\nD499-(6000.0MB, 30days)\n" +
+                             "D649-(8500.0MB, 30days)\n"
+                             )
 
+    def test_new_voice_package(self):
+        with self.mock_db_config:
+            tree = Tree('S', [('activate', 'NN'), ('V100', 'NNP'), ('voice', 'NN'), ('package', 'NN')])
+            self.assertEqual(chatbot_functions.new_voice_package(tree, "", 3)[0],
+                             "V100 package has been successfully activated. You now have 200.0 minutes remaining.")
+            tree = Tree('S', [('activate', 'NN'), ('V150', 'NNP'), ('voice', 'NN'), ('package', 'NN')])
+            self.assertEqual(chatbot_functions.new_voice_package(tree, "", 4)[0],
+                             "I'm sorry but that's not a valid voice package. " +
+                             "These are the available voice packages \n" +
+                             "V20-(30minutes, 7days)\nV60-(100minutes, 7days)\n" +
+                             "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
+                             )
+            tree = Tree('S', [('activate', 'NN'), ('voice', 'NNS'), ('package', 'NN')])
+            self.assertEqual(chatbot_functions.new_voice_package(tree, "", 5)[0],
+                             "Which voice package do you want to activate? \n" +
+                             "V20-(30minutes, 7days)\nV60-(100minutes, 7days)\n" +
+                             "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
+                             )
 
-
+    def test_new_voice_package_name(self):
+        with self.mock_db_config:
+            tree = Tree('S', [('V100', 'NNP')])
+            self.assertEqual(chatbot_functions.new_voice_package_name(tree, "new voice package name", 6)[0],
+                             "V100 package has been successfully activated. You now have 200.0 minutes remaining.")
+            tree = Tree('S', [('V150', 'NNP')])
+            self.assertEqual(chatbot_functions.new_voice_package_name(tree, "new voice package name", 6)[0],
+                             "I'm sorry but that's not a valid voice package. " +
+                             "These are the available voice packages \n" +
+                             "V20-(30minutes, 7days)\nV60-(100minutes, 7days)\n" +
+                             "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
+                             )
+            tree = Tree('S', [('no', 'DT'), ('package', 'NN'), ('name', 'NN')])
+            self.assertEqual(chatbot_functions.new_voice_package_name(tree, "new data package name", 6)[0],
+                             "I'm sorry but that's not a valid voice package name. Please try again. " +
+                             "These are the available voice packages \n" +
+                             "V20-(30minutes, 7days)\nV60-(100minutes, 7days)\n" +
+                             "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
+                             )
 
     def test_deactivate_data_confirmation(self):
         with self.mock_db_config:
-            self.assertEqual(chatbot_functions.deactivate_data_confirmation("yes", 1, "deactivate data package")[0],
+            self.assertEqual(chatbot_functions.deactivate_data_confirmation("yes", 2, "deactivate data package")[0],
                              "Your data package has been successfully deactivated.")
-            self.assertEqual(chatbot_functions.deactivate_data_confirmation("no", 1, "deactivate data package")[0],
+            self.assertEqual(chatbot_functions.deactivate_data_confirmation("no", 2, "deactivate data package")[0],
                              "Okay. Is there anything else I can help you with?")
-            self.assertEqual(chatbot_functions.deactivate_data_confirmation("something else", 1, "deactivate data package")[0],
+            self.assertEqual(chatbot_functions.deactivate_data_confirmation("something else", 2, "deactivate data package")[0],
                              "I'm sorry I didn't get that. Please answer with yes or no.")
 
     def test_deactivate_voice_confirmation(self):
         with self.mock_db_config:
-            self.assertEqual(chatbot_functions.deactivate_voice_confirmation("yes", 1, "deactivate voice package")[0],
+            self.assertEqual(chatbot_functions.deactivate_voice_confirmation("yes", 2, "deactivate voice package")[0],
                              "Your voice package has been successfully deactivated.")
-            self.assertEqual(chatbot_functions.deactivate_voice_confirmation("no", 1, "deactivate voice package")[0],
+            self.assertEqual(chatbot_functions.deactivate_voice_confirmation("no", 2, "deactivate voice package")[0],
                              "Okay. Is there anything else I can help you with?")
-            self.assertEqual(chatbot_functions.deactivate_voice_confirmation("something else", 1, "deactivate voice package")[0],
+            self.assertEqual(chatbot_functions.deactivate_voice_confirmation("something else", 2, "deactivate voice package")[0],
                              "I'm sorry I didn't get that. Please answer with yes or no.")
 
+    def test_deactivate_package(self):
+        with self.mock_db_config:
+            self.assertEqual(chatbot_functions.deactivate_package("deactivate data package", 2, "")[0],
+                             "Are you sure you want to deactivate your data package?")
+            self.assertEqual(chatbot_functions.deactivate_package("deactivate voice package", 2, "")[0],
+                             "Are you sure you want to deactivate your voice package?")
+            self.assertEqual(chatbot_functions.deactivate_package("anything else", 1, "")[0],
+                             "I'm sorry I didn't understand that. " +
+                             "Could you let me know which package Voice or Data you'd like to deactivate?")
+
+    def test_usage_data(self):
+        with self.mock_db_config:
+            self.assertEqual(chatbot_functions.usage_data(1),
+                             "Data package usage\n" +
+                             "----------------------------------\n" +
+                             "Active data package: D99\n"
+                             "Remaining data: 1000.0MB\n"
+                             "Remaining days: 20 days 24 hours 60 minutes"
+                             "\n\nVoice package usage\n" +
+                             "-----------------------------------\n" +
+                             "Active voice package: V20\n"
+                             "Remaining talk time: 30 minutes\n"
+                             "Remaining days: 6 days 24 hours 60 minutes"
+                             )

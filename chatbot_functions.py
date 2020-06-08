@@ -171,7 +171,8 @@ def new_data_package(tree, user_context, user_id):
             return activate_data_package(package_name, user_id), user_context
         else:
             user_context = "new data package name"
-            return "I'm sorry but that's not a valid data package. These are the available data packages \n" + data_packages_string, user_context
+            return "I'm sorry but that's not a valid data package. " +\
+                   "These are the available data packages \n" + data_packages_string, user_context
     else:
         user_context = "new data package name"
         return "Which data package do you want to activate? \n" + data_packages_string, user_context
@@ -189,9 +190,11 @@ def new_data_package_name(tree, user_context, user_id):
             user_context = ""
             return activate_data_package(package_name, user_id), user_context
         else:
-            return "I'm sorry but that's not a valid data package. These are the available data packages \n" + data_packages_string, user_context
+            return "I'm sorry but that's not a valid data package. " +\
+                   "These are the available data packages \n" + data_packages_string, user_context
     else:
-        return "I'm sorry but that's not a valid data package name. Please try again.", user_context
+        return "I'm sorry but that's not a valid data package name. Please try again. " +\
+               "These are the available data packages \n" + data_packages_string, user_context
 
 
 def new_voice_package(tree, user_context, user_id):
@@ -206,7 +209,8 @@ def new_voice_package(tree, user_context, user_id):
             return activate_voice_package(package_name, user_id), user_context
         else:
             user_context = "new voice package name"
-            return "I'm sorry but that's not a valid voice package. These are the available voice packages \n" + voice_packages_string, user_context
+            return "I'm sorry but that's not a valid voice package. " +\
+                   "These are the available voice packages \n" + voice_packages_string, user_context
     else:
         user_context = "new voice package name"
         return "Which voice package do you want to activate? \n" + voice_packages_string, user_context
@@ -224,9 +228,11 @@ def new_voice_package_name(tree, user_context, user_id):
             user_context = ""
             return activate_voice_package(package_name, user_id), user_context
         else:
-            return "I'm sorry but that's not a valid voice package. These are the available voice packages \n" + voice_packages_string, user_context
+            return "I'm sorry but that's not a valid voice package. " +\
+                   "These are the available voice packages \n" + voice_packages_string, user_context
     else:
-        return "I'm sorry but that's not a valid voice package name. Please try again.", user_context
+        return "I'm sorry but that's not a valid voice package name. Please try again. " +\
+               "These are the available voice packages \n" + voice_packages_string, user_context
 
 
 # def new_package(tree):
@@ -281,7 +287,8 @@ def deactivate_package(inp, user_id, user_context):
         user_context = "deactivate voice package"
         return "Are you sure you want to deactivate your voice package?", user_context
     else:
-        return "I'm sorry I didn't understand that. Could you let me know which package Voice or Data you'd like to deactivate?", user_context
+        return "I'm sorry I didn't understand that. " +\
+               "Could you let me know which package Voice or Data you'd like to deactivate?", user_context
 
 
 # USAGE DATA
