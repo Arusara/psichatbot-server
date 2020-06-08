@@ -60,6 +60,14 @@ CREATE TABLE `user_complaint_low_signal` (
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `user_complaint_no_signal` (
+  `id` int(11) NOT NULL PRIMARY KEY,
+  `user_id` int(11) NOT NULL,
+  `location` text COLLATE utf8_unicode_ci NOT NULL,
+  `report` text COLLATE utf8_unicode_ci NOT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `telecom_chatbot_messages` (
   `id` varchar(30) COLLATE utf8_unicode_ci NOT NULL PRIMARY KEY ,
   `user_id` int(11) NOT NULL,

@@ -18,6 +18,7 @@ config = {
 
 def db_read(query, params=None):
     try:
+        print(config["database"])
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor(dictionary=True)
         if params:

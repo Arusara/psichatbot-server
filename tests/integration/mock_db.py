@@ -89,27 +89,41 @@ class MockDB(TestCase):
                       `minutes` float NOT NULL,
                       `valid_period` int(11) NOT NULL,
                       `price` float NOT NULL
-                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""",cursor,cnx)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""", cursor, cnx)
+        add_table("""CREATE TABLE `user_complaint_low_signal` (
+                      `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                      `user_id` int(11) NOT NULL,
+                      `location` text COLLATE utf8_unicode_ci NOT NULL,
+                      `report` text COLLATE utf8_unicode_ci NOT NULL,
+                      `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""", cursor, cnx)
+        add_table("""CREATE TABLE `user_complaint_no_signal` (
+                      `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                      `user_id` int(11) NOT NULL,
+                      `location` text COLLATE utf8_unicode_ci NOT NULL,
+                      `report` text COLLATE utf8_unicode_ci NOT NULL,
+                      `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""", cursor, cnx)
         add_data("""INSERT INTO `user_data_package` (`package_id`, `user_id`, `package_name`, `data_used`) VALUES
-                (3, 1, 'D99', 0),
-                (6, 2, 'D499', 0);""", cursor, cnx)
+                    (3, 1, 'D99', 0),
+                    (6, 2, 'D499', 0);""", cursor, cnx)
         add_data("""INSERT INTO `user_voice_package` (`package_id`, `user_id`, `package_name`, `minutes_used`) VALUES
-                (1, 1, 'V20', 0),
-                (4, 2, 'V200', 0);""", cursor, cnx)
+                    (1, 1, 'V20', 0),
+                    (4, 2, 'V200', 0);""", cursor, cnx)
         add_data("""INSERT INTO `data_packages` (`id`, `name`, `data`, `valid_period`, `price`) VALUES
-                (1, 'D29', 200, 2, 29),
-                (2, 'D49', 400, 7, 49),
-                (3, 'D99', 1000, 21, 99),
-                (4, 'D199', 2000, 30, 199),
-                (5, 'D349', 4000, 30, 349),
-                (6, 'D499', 6000, 30, 499),
-                (7, 'D649', 8500, 30, 649);
-                """, cursor, cnx)
+                    (1, 'D29', 200, 2, 29),
+                    (2, 'D49', 400, 7, 49),
+                    (3, 'D99', 1000, 21, 99),
+                    (4, 'D199', 2000, 30, 199),
+                    (5, 'D349', 4000, 30, 349),
+                    (6, 'D499', 6000, 30, 499),
+                    (7, 'D649', 8500, 30, 649);
+                    """, cursor, cnx)
         add_data("""INSERT INTO `voice_packages` (`id`, `name`, `minutes`, `valid_period`, `price`) VALUES
-                (1, 'V20', 30, 7, 20),
-                (2, 'V60', 100, 7, 60),
-                (3, 'V100', 200, 14, 100),
-                (4, 'V200', 400, 30, 200);""", cursor, cnx)
+                    (1, 'V20', 30, 7, 20),
+                    (2, 'V60', 100, 7, 60),
+                    (3, 'V100', 200, 14, 100),
+                    (4, 'V200', 400, 30, 200);""", cursor, cnx)
 
         cursor.close()
         cnx.close()

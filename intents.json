@@ -75,15 +75,15 @@
         },
 
         {"tag": "request data package info",
-         "patterns": ["View data package info", "I'd like to know the details of data packages available", "I want to know the details of data packages available", "I want to know the data package details", "View data package information", "Show me details of data packages", "Details of data packages", "Show me data package details"],
+         "patterns": ["View data package info", "I'd like to know the details of data packages available", "I want to know the details of data packages available", "I want to know the data package details", "View data package information", "Show me details of data packages", "Details of data packages", "Show me data package details", "What are the available data packages?"],
          "responses": ["Here are the data pacakge details."]
         },
         {"tag": "request voice package info",
-         "patterns": ["View voice package info", "I'd like to know the details of voice packages available", "I want to know the details of voice packages available", "I want to know the voice package details", "View voice package information", "Show me detials of voice packages", "Details of voice packages", "Show me voice package details"],
+         "patterns": ["View voice package info", "I'd like to know the details of voice packages available", "I want to know the details of voice packages available", "I want to know the voice package details", "View voice package information", "Show me detials of voice packages", "Details of voice packages", "Show me voice package details", "What are the available voice packages?"],
          "responses": ["Here are the voice package details."]
         },
         {"tag": "request package info",
-         "patterns": ["View  package info", "I'd like to know the details of the  package", "I'd like to know the details of the  package", "I want to know the details of the  package", "I want to know the details of the  package", "I want to know the  package details", "I want to know the  package details", "I want to know the details of data and voice packages", "Show me details of package", "Details of package"],
+         "patterns": ["View  package info", "I'd like to know the details of the  package", "I'd like to know the details of the  package", "I want to know the details of the  package", "I want to know the details of the  package", "I want to know the  package details", "I want to know the  package details", "I want to know the details of data and voice packages", "Show me details of package", "Details of package", "What are the available packages?"],
          "responses": ["Here are the package details."]
         },
 
