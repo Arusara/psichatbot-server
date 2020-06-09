@@ -1,3 +1,13 @@
 {
-    "python.pythonPath": "/Users/minullamahewage/.pyenv/versions/telecom3.6/bin/python"
+    "python.pythonPath": "/Users/minullamahewage/.pyenv/versions/telecom3.6/bin/python",
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./tests",
+        "-p",
+        "test_*.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.unittestEnabled": true
 }

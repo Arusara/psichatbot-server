@@ -1,5 +1,6 @@
 import nltk
 
+
 def traverse(t):  # Not important for now
     try:
         t.label()
@@ -12,15 +13,23 @@ def traverse(t):  # Not important for now
             traverse(child)
         print(')', end=' ')
 
+
 def ne_name(t):  # Get the name of the user from the message
     for child in t:
         if isinstance(child, nltk.tree.Tree):
-            return (" ".join([val[0] for val in child]))
+            return " ".join([val[0] for val in child])
+
 
 def ne_package(t):  # Get the package name from the message
-    for child in t:
-        if isinstance(child, nltk.tree.Tree):
-            return (child[0][0])
+    try:
+        for child in t:
+            if child[1] == "NNP":
+                return child[0]
+    except:
+        for child in t:
+            if isinstance(child, nltk.tree.Tree):
+                return child[0][0]
+
 
 def ne_data_package(t):  # Get the data package name from the message
     try:
@@ -30,7 +39,7 @@ def ne_data_package(t):  # Get the data package name from the message
     except:
         for child in t:
             if isinstance(child, nltk.tree.Tree):
-                return (child[0][0])
+                return child[0][0]
     
 
 def ne_voice_package(t):  # Get the voice package name from the message
@@ -41,17 +50,25 @@ def ne_voice_package(t):  # Get the voice package name from the message
     except:
         for child in t:
             if isinstance(child, nltk.tree.Tree):
-                return (child[0][0])
+                return child[0][0]
+
 
 def ne_low_signal_location(t):  # Get the location from the message
     for child in t:
         if isinstance(child, nltk.tree.Tree):
-            return (child[0][0])
+            return child[0][0]
+
 
 def ne_change_package(t):  # Get the two package names from the message (This prints both)
-    for child in t:
-        if isinstance(child, nltk.tree.Tree):
-            return (child[0][0])
+    try:
+        for child in t:
+            if child[1] == "NNP":
+                return child[0]
+    except:
+        for child in t:
+            if isinstance(child, nltk.tree.Tree):
+                return (child[0][0])
+
 
 if __name__=="__main__":
     # Example sentences for testing
@@ -76,3 +93,4 @@ if __name__=="__main__":
     # Here, run the required function on the tree
     # Ex: To get the name from "sent1", set "sent=sent1" and run "name(tree)" here
     print(ne_data_package(tree))
+

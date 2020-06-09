@@ -25,13 +25,15 @@ import tensorflow
 from chatbot_functions import new_data_package, \
     new_data_package_name, \
     new_voice_package, new_voice_package_name, \
+    new_package, new_package_name, \
     deactivate_data_confirmation, deactivate_voice_confirmation, deactivate_package, \
     no_signal, no_signal_location, low_signal, low_signal_location, \
     data_usage_data, voice_usage_data, usage_data, \
     chatbot_functions_detail, \
     get_data_package_info, get_voice_package_info, get_package_details, \
     change_data_package_function, change_voice_package_function, \
-    change_data_package_name, change_voice_package_name
+    change_data_package_name, change_voice_package_name, \
+    change_package_function, change_package_name
 
 tensorflow.compat.v1.logging.set_verbosity(tensorflow.compat.v1.logging.ERROR)
 
@@ -39,7 +41,8 @@ with open("intents.json") as file:
     data = json.load(file)
 
 try:
-    x = t
+    # throw an error when intents file is changed
+    # raise Exception
     with open("data.pickle", "rb") as f:
         words, labels, training, output = pickle.load(f)
 except:
@@ -106,6 +109,7 @@ try:  # Loads the current model (if it exists)
     # To retrain raise exception
     model.load("model.tflearn")
     # raise Exception
+
 except:
     model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
     model.save("model.tflearn")
@@ -152,29 +156,19 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
     context = {userId: context_user}
     if userId in context.keys():
         if context[userId] == "new package name":
-            tree = prep_for_extract(inp)
-            package = extract_info.package(tree)
-            if package is not None:
-                print(package + " new package name")
-                context[userId] = ""
-                while context[userId] != "":
-                    pass
-                return "Okay, I'll activate " + package + " for you. Context:" + context[userId], context[userId]
+            if inp.lower() != "cancel":
+                tree = prep_for_extract(inp)
+                return new_package_name(tree, context[userId], userId)
             else:
-                return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId], \
-                       context[userId]
+                context[userId] = ""
+                return "Action cancelled", context[userId]
         elif context[userId] == "change package name":
-            tree = prep_for_extract(inp)
-            package = extract_info.package(tree)
-            if package is not None:
-                print(package + " change package name")
-                context[userId] = ""
-                while context[userId] != "":
-                    pass
-                return "Okay, I'll change your package to " + package + "Context:" + context[userId], context[userId]
+            if inp.lower() != "cancel":
+                tree = prep_for_extract(inp)
+                return change_package_name(tree, context[userId], userId)
             else:
-                return "I'm sorry but that's not a valid package name. Please try again. Context:" + context[userId], \
-                       context[userId]
+                context[userId] = ""
+                return "Action cancelled", context[userId]
         elif context[userId] == "deactivate package":
             return deactivate_package(inp, userId, context[userId])
         elif context[userId] == "continue":
@@ -206,18 +200,27 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
             tree = prep_for_extract(inp)
             return low_signal_location(tree, userId, context[userId])
         elif context[userId] == "change data package name":
-            tree = prep_for_extract(inp)
-            return change_data_package_name(tree, context[userId], userId)
+            if inp.lower() != "cancel":
+                tree = prep_for_extract(inp)
+                return change_data_package_name(tree, context[userId], userId)
+            else:
+                context[userId] = ""
+                return "Action cancelled", context[userId]
+
         elif context[userId] == "change voice package name":
-            tree = prep_for_extract(inp)
-            return change_voice_package_name(tree, context[userId], userId)
+            if inp.lower() != "cancel":
+                tree = prep_for_extract(inp)
+                return change_voice_package_name(tree, context[userId], userId)
+            else:
+                context[userId] = ""
+                return "Action cancelled", context[userId]
 
     i = classify(inp)
     if i:  # Checks whether the classification worked (If it didn't work, "i" would be "False")
 
         if (not 'context_filter' in i) or (
                 userId in context and 'context_filter' in i and i['context_filter'] == context[
-                userId]):  # Checking for context
+            userId]):  # Checking for context
 
             if 'context_set' in i:  # Checks whether the classification requires context to be set
                 print('context:', i['context_set'])
@@ -232,23 +235,9 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
             elif i['tag'] == "low signal":
                 return low_signal(tree, userId, context[userId])
             elif i['tag'] == "change package":
-                package = extract_info.package(tree)
-                if package:
-                    return "Okay, I'll change your package to " + package, context[userId]
-                else:
-                    context[userId] = "change package name"
-                    while context[userId] != "change package name":
-                        pass
-                    return "Which package do you want to change to? Context:" + context[userId], context[userId]
+                return change_package_function(tree, context[userId], userId)
             elif i['tag'] == "new package":
-                package = extract_info.package(tree)
-                if package:
-                    return "Okay, I'll activate " + package + " for you", context[userId]
-                else:
-                    context[userId] = "new package name"
-                    while context[userId] != "new package name":
-                        pass
-                    return "Which package do you want to activate? Context:" + context[userId], context[userId]
+                return new_package(tree, context[userId], userId)
             elif i['tag'] == "new data package":
                 return new_data_package(tree, context[userId], userId)
             elif i['tag'] == "new voice package":

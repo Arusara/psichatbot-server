@@ -115,6 +115,74 @@ class TestChatbotFunctions(MockDB):
                              "V20-(30.0minutes, 7days)\nV60-(100.0minutes, 7days)\n" +
                              "V100-(200.0minutes, 14days)\nV200-(400.0minutes, 30days)\n")
 
+    def test_change_package_function(self):
+        with self.mock_db_config:
+            tree = Tree('S',
+                        [('I', 'PRP'), ('want', 'VBP'), ('to', 'TO'), ('change', 'VB'),
+                         ('my', 'PRP$'), ('package', 'NN'), ('D99', 'NNP')])
+            self.assertEqual(chatbot_functions.change_package_function(tree, "", 1)[0],
+                             "Your data package has been successfully changed to D99. You now have 1000.0MB remaining.")
+            tree = Tree('S',
+                        [('I', 'PRP'), ('want', 'VBP'), ('to', 'TO'), ('change', 'VB'), ('my', 'PRP$'),
+                         ('package', 'NN'), ('V100', 'NNP')])
+            self.assertEqual(chatbot_functions.change_package_function(tree, "", 1)[0],
+                             "Your voice package has been successfully changed to V100. " +
+                             "You now have 200.0 minutes remaining.")
+            tree = Tree('S', [('change', 'NN'), ('V150', 'NNP'),('package', 'NN')])
+            self.assertEqual(chatbot_functions.change_package_function(tree, "", 1)[0],
+                             "I'm sorry but that's not a valid package name. Here are the available packages.\n\n" +
+                             "Data Packages\n\n" +
+                             "D29-(200.0MB, 2days)\nD49-(400.0MB, 7days)\nD99-(1000.0MB, 21days)\n" +
+                             "D199-(2000.0MB, 30days)\nD349-(4000.0MB, 30days)\nD499-(6000.0MB, 30days)\n" +
+                             "D649-(8500.0MB, 30days)\n" +
+                             "\nVoice Packages\n\n" +
+                             "V20-(30minutes, 7days)\nV60-(100minutes, 7days)\n" +
+                             "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
+                             )
+            tree = Tree('S', [('change', 'NN'), ('package', 'NN')])
+            self.assertEqual(chatbot_functions.change_package_function(tree, "", 8)[0],
+                             "Here are all the available packages.\n\n" +
+                             "Data Packages\n\n" +
+                             "D29-(200.0MB, 2days)\nD49-(400.0MB, 7days)\nD99-(1000.0MB, 21days)\n" +
+                             "D199-(2000.0MB, 30days)\nD349-(4000.0MB, 30days)\nD499-(6000.0MB, 30days)\n" +
+                             "D649-(8500.0MB, 30days)\n" +
+                             "\nVoice Packages\n\n" +
+                             "V20-(30minutes, 7days)\nV60-(100minutes, 7days)\n" +
+                             "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
+                             )
+
+    def test_change_package_name(self):
+        with self.mock_db_config:
+            tree = Tree('S', [Tree('GPE', [('D99', 'NN')])])
+            self.assertEqual(chatbot_functions.change_package_name(tree, "change package name", 1)[0],
+                             "Your data package has been successfully changed to D99. You now have 1000.0MB remaining.")
+            tree = Tree('S', [Tree('GPE', [('V20', 'NN')])])
+            self.assertEqual(chatbot_functions.change_package_name(tree, "change package name", 1)[0],
+                             "Your voice package has been successfully changed to V20. " +
+                             "You now have 30.0 minutes remaining.")
+            tree = Tree('S', [('V150', 'NNP')])
+            self.assertEqual(chatbot_functions.change_package_name(tree, "change package name", 9)[0],
+                             "I'm sorry but that's not a valid package name. Here are the available packages.\n\n" +
+                             "Data Packages\n\n" +
+                             "D29-(200.0MB, 2days)\nD49-(400.0MB, 7days)\nD99-(1000.0MB, 21days)\n" +
+                             "D199-(2000.0MB, 30days)\nD349-(4000.0MB, 30days)\nD499-(6000.0MB, 30days)\n" +
+                             "D649-(8500.0MB, 30days)\n" +
+                             "\nVoice Packages\n\n" +
+                             "V20-(30minutes, 7days)\nV60-(100minutes, 7days)\n" +
+                             "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
+                             )
+            tree = Tree('S', [('no', 'DT'), ('package', 'NN'), ('name', 'NN')])
+            self.assertEqual(chatbot_functions.change_package_name(tree, "change package name", 9)[0],
+                             "I'm sorry but that's not a valid package name. Here are the available packages.\n\n" +
+                             "Data Packages\n\n" +
+                             "D29-(200.0MB, 2days)\nD49-(400.0MB, 7days)\nD99-(1000.0MB, 21days)\n" +
+                             "D199-(2000.0MB, 30days)\nD349-(4000.0MB, 30days)\nD499-(6000.0MB, 30days)\n" +
+                             "D649-(8500.0MB, 30days)\n" +
+                             "\nVoice Packages\n\n" +
+                             "V20-(30minutes, 7days)\nV60-(100minutes, 7days)\n" +
+                             "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
+                             )
+
     def test_new_data_package(self):
         with self.mock_db_config:
             tree = Tree('S', [('activate', 'NN'), ('D99', 'NNP'), ('data', 'NN'), ('package', 'NN')])
@@ -195,13 +263,76 @@ class TestChatbotFunctions(MockDB):
                              "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
                              )
 
+    def test_new_package(self):
+        with self.mock_db_config:
+            tree = Tree('S', [('activate', 'NN'), ('D99', 'NNP'), ('package', 'NN')])
+            self.assertEqual(chatbot_functions.new_package(tree, "", 8)[0],
+                             "D99 package has been successfully activated. You now have 1000.0MB remaining")
+            tree = Tree('S', [('activate', 'NN'), ('V100', 'NNP'), ('package', 'NN')])
+            self.assertEqual(chatbot_functions.new_package(tree, "", 8)[0],
+                             "V100 package has been successfully activated. You now have 200.0 minutes remaining.")
+            tree = Tree('S', [('activate', 'NN'), ('V150', 'NNP'),('package', 'NN')])
+            self.assertEqual(chatbot_functions.new_package(tree, "", 8)[0],
+                             "I'm sorry but that's not a valid package name. Here are the available packages.\n\n" +
+                             "Data Packages\n\n" +
+                             "D29-(200.0MB, 2days)\nD49-(400.0MB, 7days)\nD99-(1000.0MB, 21days)\n" +
+                             "D199-(2000.0MB, 30days)\nD349-(4000.0MB, 30days)\nD499-(6000.0MB, 30days)\n" +
+                             "D649-(8500.0MB, 30days)\n" +
+                             "\nVoice Packages\n\n" +
+                             "V20-(30minutes, 7days)\nV60-(100minutes, 7days)\n" +
+                             "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
+                             )
+            tree = Tree('S', [('activate', 'NN'), ('package', 'NN')])
+            self.assertEqual(chatbot_functions.new_package(tree, "", 8)[0],
+                             "Here are all the available packages.\n\n" +
+                             "Data Packages\n\n" +
+                             "D29-(200.0MB, 2days)\nD49-(400.0MB, 7days)\nD99-(1000.0MB, 21days)\n" +
+                             "D199-(2000.0MB, 30days)\nD349-(4000.0MB, 30days)\nD499-(6000.0MB, 30days)\n" +
+                             "D649-(8500.0MB, 30days)\n" +
+                             "\nVoice Packages\n\n" +
+                             "V20-(30minutes, 7days)\nV60-(100minutes, 7days)\n" +
+                             "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
+                             )
+
+    def test_new_package_name(self):
+        with self.mock_db_config:
+            tree = Tree('S', [('D99', 'NNP')])
+            self.assertEqual(chatbot_functions.new_package_name(tree, "new package name", 9)[0],
+                             "D99 package has been successfully activated. You now have 1000.0MB remaining")
+            tree = Tree('S', [('V100', 'NNP')])
+            self.assertEqual(chatbot_functions.new_package_name(tree, "new package name", 9)[0],
+                             "V100 package has been successfully activated. You now have 200.0 minutes remaining.")
+            tree = Tree('S', [('V150', 'NNP')])
+            self.assertEqual(chatbot_functions.new_package_name(tree, "new package name", 9)[0],
+                             "I'm sorry but that's not a valid package name. Here are the available packages.\n\n" +
+                             "Data Packages\n\n" +
+                             "D29-(200.0MB, 2days)\nD49-(400.0MB, 7days)\nD99-(1000.0MB, 21days)\n" +
+                             "D199-(2000.0MB, 30days)\nD349-(4000.0MB, 30days)\nD499-(6000.0MB, 30days)\n" +
+                             "D649-(8500.0MB, 30days)\n" +
+                             "\nVoice Packages\n\n" +
+                             "V20-(30minutes, 7days)\nV60-(100minutes, 7days)\n" +
+                             "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
+                             )
+            tree = Tree('S', [('no', 'DT'), ('package', 'NN'), ('name', 'NN')])
+            self.assertEqual(chatbot_functions.new_package_name(tree, "new package name", 9)[0],
+                             "I'm sorry but that's not a valid package name. Here are the available packages.\n\n" +
+                             "Data Packages\n\n" +
+                             "D29-(200.0MB, 2days)\nD49-(400.0MB, 7days)\nD99-(1000.0MB, 21days)\n" +
+                             "D199-(2000.0MB, 30days)\nD349-(4000.0MB, 30days)\nD499-(6000.0MB, 30days)\n" +
+                             "D649-(8500.0MB, 30days)\n" +
+                             "\nVoice Packages\n\n" +
+                             "V20-(30minutes, 7days)\nV60-(100minutes, 7days)\n" +
+                             "V100-(200minutes, 14days)\nV200-(400minutes, 30days)\n"
+                             )
+
     def test_deactivate_data_confirmation(self):
         with self.mock_db_config:
             self.assertEqual(chatbot_functions.deactivate_data_confirmation("yes", 2, "deactivate data package")[0],
                              "Your data package has been successfully deactivated.")
             self.assertEqual(chatbot_functions.deactivate_data_confirmation("no", 2, "deactivate data package")[0],
                              "Okay. Is there anything else I can help you with?")
-            self.assertEqual(chatbot_functions.deactivate_data_confirmation("something else", 2, "deactivate data package")[0],
+            self.assertEqual(chatbot_functions.deactivate_data_confirmation("something else", 2,
+                                                                            "deactivate data package")[0],
                              "I'm sorry I didn't get that. Please answer with yes or no.")
 
     def test_deactivate_voice_confirmation(self):
@@ -210,7 +341,8 @@ class TestChatbotFunctions(MockDB):
                              "Your voice package has been successfully deactivated.")
             self.assertEqual(chatbot_functions.deactivate_voice_confirmation("no", 2, "deactivate voice package")[0],
                              "Okay. Is there anything else I can help you with?")
-            self.assertEqual(chatbot_functions.deactivate_voice_confirmation("something else", 2, "deactivate voice package")[0],
+            self.assertEqual(chatbot_functions.deactivate_voice_confirmation("something else", 2,
+                                                                             "deactivate voice package")[0],
                              "I'm sorry I didn't get that. Please answer with yes or no.")
 
     def test_deactivate_package(self):

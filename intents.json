@@ -24,11 +24,11 @@
          "responses": ["What data package do you want to change to?"]
         },
         {"tag": "new data package",
-         "patterns": ["I want to activate a new data package", "I want to activate a data package", "I want a new data package", "Activate data package", "I want to activate a package", "Can I activate a new data package?"],
+         "patterns": ["I want to activate a new data package", "I want to activate a data package", "I want a new data package", "Activate data package", "I want to activate a data package", "Can I activate a new data package?"],
          "responses": ["Ok. I'll activate that data package for you."]
         },
         {"tag": "deactivate data package",
-         "patterns": ["I want to deactivate my data package", "deactivate my data package", "I want to deactivate data package", "deactivate voice package"],
+         "patterns": ["I want to deactivate my data package", "deactivate my data package", "I want to deactivate data package", "deactivate data package"],
          "responses": ["Are you sure you want to deactivate your data package?"],
          "context_set": "deactivate data package"
         },
@@ -76,10 +76,10 @@
 
         {"tag": "request data package info",
          "patterns": ["View data package info", "I'd like to know the details of data packages available", "I want to know the details of data packages available", "I want to know the data package details", "View data package information", "Show me details of data packages", "Details of data packages", "Show me data package details", "What are the available data packages?"],
-         "responses": ["Here are the data pacakge details."]
+         "responses": ["Here are the data package details."]
         },
         {"tag": "request voice package info",
-         "patterns": ["View voice package info", "I'd like to know the details of voice packages available", "I want to know the details of voice packages available", "I want to know the voice package details", "View voice package information", "Show me detials of voice packages", "Details of voice packages", "Show me voice package details", "What are the available voice packages?"],
+         "patterns": ["View voice package info", "I'd like to know the details of voice packages available", "I want to know the details of voice packages available", "I want to know the voice package details", "View voice package information", "Show me details of voice packages", "Details of voice packages", "Show me voice package details", "What are the available voice packages?"],
          "responses": ["Here are the voice package details."]
         },
         {"tag": "request package info",
