@@ -1,9 +1,12 @@
 import mysql.connector
 from mysql.connector import errorcode
 from flask_mysqldb import MySQLdb
+from flask import current_app, render_template
 from hashlib import pbkdf2_hmac
 import os
 import jwt
+from __init__ import mail  # you can now import the Mail() object
+from flask_mail import Message
 
 from database.database import db
 from settings import JWT_SECRET_KEY, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB, MYSQL_HOST
@@ -129,19 +132,58 @@ def validate_user(email, password):
             first_name = current_user[0]["first_name"]
             last_name = current_user[0]["last_name"]
             user_email = current_user[0]["email"]
+            phone_number = current_user[0]["phone_number"]
+            verified = current_user[0]["verified"]
             jwt_token = generate_jwt_token(
                 {"user_id": user_id, 
                 "first_name": first_name,
                 "last_name": last_name,
-                "email": user_email
+                "email": user_email,
+                "phone": phone_number,
+                "verified": verified
                 })
-            return jwt_token, ""
+            if verified==0:
+                verified = False
+            else:
+                verified = True
+            return jwt_token, "", verified
         else:
-            return False, "password"
+            return False, "password", False
 
     else:
-        return False, "email"
+        return False, "email", False
 
+def validate_user_registration_email(email, ):
+    current_user = db_read("""SELECT * FROM users WHERE email = %s""", (email,))
+
+    if len(current_user)==0:
+        return True
+    else:
+        return False
+
+def validate_user_registration_phone(phone_number):
+    current_user = db_read("""SELECT * FROM users WHERE phone_number = %s""", (phone_number,))
+
+    if len(current_user)==0:
+        return True
+    else:
+        return False
+
+def validate_user_update_email(email, user_id):
+    current_user = db_read("""SELECT * FROM users WHERE email = %s AND user_id !=%s""", (email,user_id))
+
+    if len(current_user)==0:
+        return True
+    else:
+        return False
+
+def validate_user_update_phone(phone_number, user_id):
+    current_user = db_read("""SELECT * FROM users WHERE phone_number = %s AND user_id!=%s""", (phone_number,user_id))
+
+    if len(current_user)==0:
+        return True
+    else:
+        return False
 
 def write_message(id, user_id, message, is_bot,date_time):
     if db_write("""INSERT into telecom_chatbot_messages (id, user_id, message, isBot, date_time) VALUES (%s, %s, %s, %s,%s)""", 
@@ -166,3 +208,49 @@ def get_user_messages(user_id):
     messages_dict = {"messages": messages}
     return messages_dict
 
+def get_user_id(email):
+    user_id = db_read("""SELECT * FROM users WHERE email = %s""", (email,))[0]
+
+    return user_id
+
+def check_if_verified(email):
+    verification = db_read("""SELECT * FROM users WHERE email = %s""", (email,))
+
+    if verification:
+        if verification[0]["verified"]==0:
+            return False
+
+        else:
+            return True
+    else:
+         return False
+
+def check_verification_code(email, code):
+    verification_code = db_read("""SELECT * FROM users WHERE email = %s""", (email,))
+
+    if verification_code:
+        if verification_code[0]["verification_code"]==code:
+            return True
+
+        else:
+            return False
+
+    else:
+        return False
+
+def get_verification_code(email):
+    verification_code = db_read("""SELECT * FROM users WHERE email = %s""", (email,))
+
+    if verification_code:
+        return verification_code[0]["verification_code"]
+
+    else:
+        return None
+
+
+def send_verification_email(email, first_name, verification_code):
+    msg = Message(subject="Hello",
+                    sender= current_app.config["MAIL_USERNAME"],
+                    recipients=[email])
+    msg.html = render_template("email_verification.html", first_name= first_name, verification_code = verification_code)
+    mail.send(msg)
