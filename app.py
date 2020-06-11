@@ -26,24 +26,11 @@ authentication = auth.authentication
 load_dotenv()
 
 app = create_app()
-# app = Flask(__name__)
+
 
 CORS(app)
 
 app.register_blueprint(authentication, url_prefix="/api/auth")
-
-# mail_settings = {
-#     "MAIL_SERVER": 'smtp.gmail.com',
-#     "MAIL_PORT": 465,
-#     "MAIL_USE_TLS": False,
-#     "MAIL_USE_SSL": True,
-#     "MAIL_USERNAME": os.getenv('EMAIL_USER'),
-#     "MAIL_PASSWORD": os.getenv('EMAIL_PASSWORD')
-# }
-
-# app.config.update(mail_settings)
-
-# mail = Mail(app)
 
 #GET /, test route
 @app.route('/', methods=["GET"])
