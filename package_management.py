@@ -171,7 +171,7 @@ def get_data_usage_data(user_id):
         activated_date = usage_data[0]["activated_date"]
         valid_period = usage_data[0]["valid_period"]
         remaining_days = str(int(valid_period - (current_date - activated_date).days) - 1) + " days " + str(
-            24 - (current_date - activated_date).seconds // 3600) + " hours " + str(
+            23 - (current_date - activated_date).seconds // 3600) + " hours " + str(
             60 - ((current_date - activated_date).seconds // 60) % 60) + " minutes"
         usage = "Active data package: " + usage_data[0]["package_name"] + "\n" + \
                 "Remaining data: " + str((usage_data[0]["data"] - usage_data[0]["data_used"])) + "MB\n" + \
@@ -196,7 +196,7 @@ def get_voice_usage_data(user_id):
         activated_date = usage_data[0]["activated_date"]
         valid_period = usage_data[0]["valid_period"]
         remaining_days = str(int(valid_period - (current_date - activated_date).days) - 1) + " days " + str(
-            24 - (current_date - activated_date).seconds // 3600) + " hours " + str(
+            23 - (current_date - activated_date).seconds // 3600) + " hours " + str(
             60 - ((current_date - activated_date).seconds // 60) % 60) + " minutes"
         usage = "Active voice package: " + usage_data[0]["package_name"] + "\n" + \
                 "Remaining talk time: " + str(
