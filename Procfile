@@ -1,1 +1,1 @@
-web: gunicorn --workers=3 app:app --preload
+web: gunicorn --workers=2 app:app --preload
