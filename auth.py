@@ -34,7 +34,6 @@ def register_user():
                 """INSERT INTO users (email, phone_number, first_name, last_name, password_salt, password_hash, created, verification_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
                 (user_email, user_phone_number, first_name, last_name, password_salt, password_hash, created, verification_code),
             ):
-                print("Registered: " + user_email)
                 send_verification_email(user_email, first_name, verification_code)
                 return Response(status=200)
             else:
@@ -52,14 +51,12 @@ def register_user():
 
 @authentication.route("/login", methods=["POST"])
 def login_user():
-    print(request.json)
     user_email = request.json["email"]
     user_password = request.json["password"]
 
     user_token, error_string, verified = validate_user(user_email, user_password)
 
     if user_token and verified:
-        print(user_token)
         return jsonify({"jwt_token": user_token, "message": "Successfully logged in: " + user_email})
     elif user_token and not verified:
         print ("not verified")
@@ -109,7 +106,6 @@ def update_user():
 
 @authentication.route("/verify", methods=["POST"])
 def verify_user():
-    print(request.json)
     user_email = request.json["email"]
     verification_code = request.json["verification"]
 
@@ -128,7 +124,6 @@ def verify_user():
 
 @authentication.route("/resend_verification", methods=["POST"])
 def resend_verification():
-    print(request.json)
     user_email = request.json["email"]
     first_name = request.json["first_name"]
     new_verification_code = randint(10000, 99999)
