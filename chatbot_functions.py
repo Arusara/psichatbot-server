@@ -446,14 +446,14 @@ def get_package_details(tree, user_context):
 def chatbot_functions_detail():
     functions = "Here are some of the things I can do.\n" + \
                 "1. Activate, Change or Deactivate data or voice packages.\n" + \
-                "   Eg: I want to activate <package name> data package. I want to change my voice package. " + \
+                "   Eg: I want to activate (package name) data package. I want to change my voice package. " + \
                 "I want to deactivate my data package.\n\n" + \
                 "2. Complain about the loss of signal or low signal.\n" + \
                 "   Eg: There is no signal. I am not getting any signal. Internet is slow. The signal is weak.\n\n" + \
                 "3. View usage data.\n" + \
                 "   Eg: View data usage. How many minutes do I have left? Show me my voice package usage.\n\n" + \
                 "4. View package information.\n" + \
-                "   Eg: Show me the details of data packages. Show me the details of <package name> package. " + \
+                "   Eg: Show me the details of data packages. Show me the details of (package name) package. " + \
                 "Show me the details of packages.\n" +\
                 "You may enter 'cancel' to exit out of any ongoing action."
 
