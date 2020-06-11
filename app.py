@@ -81,4 +81,4 @@ def getMessages(user_id):
 
 
 
-app.run( threaded = True)
+# app.run( threaded = True)
