@@ -59,7 +59,13 @@ class TestBehaviour(TaskSet):
         print(response.text)
             # if response.text[4] != "Here are the details of the data package\n\nD99\nAvailable data:1000.0MB\nValid period:21days \nPrice: Rs. 99.0":
             #     raise FlowException("Request Failed")
-
+    @task(3)
+    def testLogin(self):
+        self.client.post("{}/api/auth/login".format(SERVER_URL),json=
+        {
+            "email": "test@gmail.com",
+            "password": "12345678"
+        })
 
 class WebsiteTest(HttpUser):
     tasks  = [TestBehaviour]

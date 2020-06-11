@@ -4,18 +4,23 @@ import telecomchatbot
 
 class TestTelecomChatbot(TestCase):
 
-    def test_classify(self):
+    def test_greeting(self):
         messages_greeting = ["Hi", "How are you", "Is anyone there?", "Hello", "Good day", "Whats up?"]
         for message in messages_greeting:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "greeting")
 
+    def test_goodbye(self):
         messages_goodbye = ["See you later", "Goodbye", "Have a Good day", "bye"]
         for message in messages_goodbye:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "goodbye")
 
+    def test_chatbot_functions(self):
+
         messages_chatbot_functions = ["What can you do?", "Show me what you can do", "What are your functions"]
         for message in messages_chatbot_functions:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "chatbot functions")
+
+    def test_no_signal(self):
 
         messages_no_signal = ["I am not getting signal", "There is no connection",
                               "My connection is gone", "There isn't any signal", "There is no signal",
@@ -25,12 +30,16 @@ class TestTelecomChatbot(TestCase):
         for message in messages_no_signal:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "no signal")
 
+    def test_low_signal(self):
+
         messages_low_signal = ["I have low signal", "The connection is slow", "Internet is slow",
                                "Weak Signal", "The signal is weak", "Signal is poor", "Internet speeds are poor",
                                "The signal in weak in Colombo", "The internet speeds are poor in Colombo",
                                "The internet is slow in Colombo"]
         for message in messages_low_signal:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "low signal")
+
+    def test_change_data_package(self):
 
         messages_change_data_package = ["Can I change my data package", "I want a different data package",
                                         "I want to change my data package", "I want to change the data package",
@@ -39,6 +48,8 @@ class TestTelecomChatbot(TestCase):
         for message in messages_change_data_package:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "change data package")
 
+    def test_new_data_package(self):
+
         messages_new_data_package = ["I want to activate a new data package", "I want to activate a data package",
                                      "I want a new data package", "Activate data package",
                                      "I want to activate a data package", "Can I activate a new data package?",
@@ -46,10 +57,14 @@ class TestTelecomChatbot(TestCase):
         for message in messages_new_data_package:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "new data package")
 
+    def test_deactivate_data_package(self):
+
         messages_deactivate_data_package =["I want to deactivate my data package", "deactivate my data package",
                                            "I want to deactivate data package", "deactivate data package"]
         for message in messages_deactivate_data_package:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "deactivate data package")
+
+    def test_change_voice_package(self):
 
         messages_change_voice_package = ["Can I change my voice package", "I want a different voice package",
                                          "I want to change my voice package", "I want to change the voice package",
@@ -59,6 +74,8 @@ class TestTelecomChatbot(TestCase):
         for message in messages_change_voice_package:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "change voice package")
 
+    def test_new_voice_package(self):
+
         messages_new_voice_package = ["I want to activate a new voice package", "I want to activate a voice package",
                                       "I want a new voice package", "Activate voice package",
                                       "I want to activate a voice package", "Can I activate a new voice package?",
@@ -66,10 +83,14 @@ class TestTelecomChatbot(TestCase):
         for message in messages_new_voice_package:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "new voice package")
 
+    def test_deactivate_voice_package(self):
+
         messages_deactivate_voice_package = ["I want to deactivate my voice package", "deactivate my voice package",
                                              "I want to deactivate voice package", "deactivate voice package"]
         for message in messages_deactivate_voice_package:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "deactivate voice package")
+
+    def test_data_usage_data(self):
 
         messages_data_usage_data = ["How much data have I used?", "How much data do I have left?",
                                     "How much data is remaining?", "View data usage", "I want to view my data usage",
@@ -79,6 +100,8 @@ class TestTelecomChatbot(TestCase):
                                     "Show me data package usage details"]
         for message in messages_data_usage_data:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "data usage data")
+
+    def test_voice_usage_data(self):
 
         messages_voice_usage_data = ["How many minutes of voice calls have I used?",
                                      "How many minutes of voice calls do I have left?",
@@ -90,10 +113,14 @@ class TestTelecomChatbot(TestCase):
         for message in messages_voice_usage_data:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "voice usage data")
 
+    def test_usage_data(self):
+
         messages_usage_data = ["How much have I used?", "View usage", "I want to view my usage", "What's my usage?",
                                "What is my usage?", "Can you show me my usage?"]
         for message in messages_usage_data:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "usage data")
+
+    def test_request_data_package_info(self):
 
         messages_request_data_package_info = ["View data package info",
                                               "I'd like to know the details of data packages available",
@@ -105,6 +132,8 @@ class TestTelecomChatbot(TestCase):
         for message in messages_request_data_package_info:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "request data package info")
 
+    def test_request_voice_package_info(self):
+
         messages_request_voice_package_info = ["View voice package info",
                                                "I'd like to know the details of voice packages available",
                                                "I want to know the details of voice packages available",
@@ -114,6 +143,8 @@ class TestTelecomChatbot(TestCase):
                                                "What are the available voice packages?"]
         for message in messages_request_voice_package_info:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "request voice package info")
+
+    def test_request_package_info(self):
 
         messages_request_package_info = ["View D99 package info", "I'd like to know the details of the V200 package",
                                          "I'd like to know the details of the  package",
@@ -126,6 +157,8 @@ class TestTelecomChatbot(TestCase):
                                          "What are the available packages?"]
         for message in messages_request_package_info:
             self.assertEqual(telecomchatbot.classify(message)["tag"], "request package info")
+
+    def test_thanks(self):
 
         messages_thanks = ["Thank you", "Thanks"]
         for message in messages_thanks:

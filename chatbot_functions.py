@@ -438,7 +438,8 @@ def get_package_details(tree, user_context):
         else:
             return "That is not a valid package name", user_context
     else:
-        return "Here are all the available package\n\n" + get_data_package_info() + "\n\n" + get_voice_package_info(), user_context
+        return "Here are all the available package\n\n" + get_data_package_info() + "\n\n" + get_voice_package_info(), \
+               user_context
 
 
 # CHATBOT FUNCTIONS

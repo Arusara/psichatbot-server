@@ -119,12 +119,12 @@ class TestPackageManagement(MockDB):
             self.assertEqual(package_management.get_data_usage_data(1),
                              "Active data package: D99\n"
                              "Remaining data: 1000.0MB\n"
-                             "Remaining days: 20 days 24 hours 60 minutes")
+                             "Remaining days: 20 days 23 hours 60 minutes")
 
     def test_get_voice_usage_data(self):
         with self.mock_db_config:
             self.assertEqual(package_management.get_voice_usage_data(1),
                              "Active voice package: V20\n"
                              "Remaining talk time: 30 minutes\n"
-                             "Remaining days: 6 days 24 hours 60 minutes"
+                             "Remaining days: 6 days 23 hours 60 minutes"
                              )

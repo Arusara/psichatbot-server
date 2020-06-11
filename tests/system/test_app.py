@@ -29,8 +29,18 @@ class TestHome(MockDB):
                 data = json.loads(resp.get_data())
                 data = {k:v for k,v in data.items() if k in ['userId', 'message', 'context']}
 
-                expected = {'userId':3,
-                            'message':"Hi there, how can I help you?\n\nHere are some of the things I can do.\n1. Activate, Change or Deactivate data or voice packages.\n   Eg: I want to activate <package name> data package. I want to change my voice package. I want to deactivate my data package.\n\n2. Complain about the loss of signal or low signal.\n   Eg: There is no signal. I am not getting any signal. Internet is slow. The signal is weak.\n\n3. View usage data.\n   Eg: View data usage. How many minutes do I have left? Show me my voice package usage.\n\n4. View package information.\n   Eg: Show me the details of data packages. Show me the details of <package name> package. Show me the details of packages.\nYou may enter 'cancel' to exit out of any ongoing action.",
+                expected = {'userId': 3,
+                            'message': "Hi there, how can I help you?\n\nHere are some of the things I can do.\n" +
+                                       "1. Activate, Change or Deactivate data or voice packages.\n   " +
+                                       "Eg: I want to activate (package name) data package. " +
+                                       "I want to change my voice package. I want to deactivate my data package.\n\n" +
+                                       "2. Complain about the loss of signal or low signal.\n   " +
+                                       "Eg: There is no signal. I am not getting any signal. Internet is slow. " +
+                                       "The signal is weak.\n\n3. View usage data.\n   Eg: View data usage. " +
+                                       "How many minutes do I have left? Show me my voice package usage.\n\n" +
+                                       "4. View package information.\n   Eg: Show me the details of data packages. " +
+                                       "Show me the details of (package name) package. Show me the details of packages." +
+                                       "\nYou may enter 'cancel' to exit out of any ongoing action.",
                             'context': ''}
 
                 self.assertEqual(data, expected)
@@ -69,7 +79,18 @@ class TestHome(MockDB):
                 data = {k: v for k, v in data.items() if k in ['userId', 'message', 'context']}
 
                 expected = {'context': '',
-                            'message': "Here are some of the things I can do.\n1. Activate, Change or Deactivate data or voice packages.\n   Eg: I want to activate <package name> data package. I want to change my voice package. I want to deactivate my data package.\n\n2. Complain about the loss of signal or low signal.\n   Eg: There is no signal. I am not getting any signal. Internet is slow. The signal is weak.\n\n3. View usage data.\n   Eg: View data usage. How many minutes do I have left? Show me my voice package usage.\n\n4. View package information.\n   Eg: Show me the details of data packages. Show me the details of <package name> package. Show me the details of packages.\nYou may enter 'cancel' to exit out of any ongoing action.",
+                            'message': "Here are some of the things I can do.\n" +
+                                       "1. Activate, Change or Deactivate data or voice packages.\n   " +
+                                       "Eg: I want to activate (package name) data package. " +
+                                       "I want to change my voice package. I want to deactivate my data package.\n\n" +
+                                       "2. Complain about the loss of signal or low signal.\n   " +
+                                       "Eg: There is no signal. I am not getting any signal. Internet is slow. " +
+                                       "The signal is weak.\n\n3. View usage data.\n   Eg: View data usage. " +
+                                       "How many minutes do I have left? Show me my voice package usage.\n\n" +
+                                       "4. View package information.\n   Eg: Show me the details of data packages. " +
+                                       "Show me the details of (package name) package. " +
+                                       "Show me the details of packages." +
+                                       "\nYou may enter 'cancel' to exit out of any ongoing action.",
                             'userId': 3}
 
                 self.assertEqual(data, expected)
@@ -109,7 +130,8 @@ class TestHome(MockDB):
                 data = {k: v for k, v in data.items() if k in ['userId', 'message', 'context']}
 
                 expected = {'context': '',
-                            'message': 'We will look into the loss of signal in Colombo. Thank you for staying with our network.',
+                            'message': 'We will look into the loss of signal in Colombo. ' +
+                                       'Thank you for staying with our network.',
                             'userId': 3}
 
                 self.assertEqual(data, expected)
@@ -130,7 +152,8 @@ class TestHome(MockDB):
                 data = {k: v for k, v in data.items() if k in ['userId', 'message', 'context']}
 
                 expected = {'context': '',
-                            'message': 'We will look into the loss of signal in Colombo. Thank you for staying with our network.',
+                            'message': 'We will look into the loss of signal in Colombo. ' +
+                                       'Thank you for staying with our network.',
                             'userId': 3}
 
                 self.assertEqual(data, expected)
@@ -629,7 +652,7 @@ class TestHome(MockDB):
                 data = {k: v for k, v in data.items() if k in ['userId', 'message', 'context']}
 
                 expected = {'context': '',
-                            'message': 'Active data package: D499\nRemaining data: 6000.0MB\nRemaining days: 29 days 24 hours 60 minutes',
+                            'message': 'Active data package: D499\nRemaining data: 6000.0MB\nRemaining days: 29 days 23 hours 60 minutes',
                             'userId': 2}
                 
                 self.assertEqual(data, expected)
@@ -651,7 +674,7 @@ class TestHome(MockDB):
                 data = {k: v for k, v in data.items() if k in ['userId', 'message', 'context']}
 
                 expected = {'context': '',
-                            'message': 'Active voice package: V200\nRemaining talk time: 400 minutes\nRemaining days: 29 days 24 hours 60 minutes',
+                            'message': 'Active voice package: V200\nRemaining talk time: 400 minutes\nRemaining days: 29 days 23 hours 60 minutes',
                             'userId': 2}
 
                 self.assertEqual(data, expected)
@@ -673,7 +696,7 @@ class TestHome(MockDB):
                 data = {k: v for k, v in data.items() if k in ['userId', 'message', 'context']}
 
                 expected = {'context': '',
-                            'message': 'Data package usage\n----------------------------------\nActive data package: D499\nRemaining data: 6000.0MB\nRemaining days: 29 days 24 hours 60 minutes\n\nVoice package usage\n-----------------------------------\nActive voice package: V200\nRemaining talk time: 400 minutes\nRemaining days: 29 days 24 hours 60 minutes',
+                            'message': 'Data package usage\n----------------------------------\nActive data package: D499\nRemaining data: 6000.0MB\nRemaining days: 29 days 23 hours 60 minutes\n\nVoice package usage\n-----------------------------------\nActive voice package: V200\nRemaining talk time: 400 minutes\nRemaining days: 29 days 23 hours 60 minutes',
                             'userId': 2}
 
                 self.assertEqual(data, expected)

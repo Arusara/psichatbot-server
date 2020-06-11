@@ -49,7 +49,8 @@ class MockDB(TestCase):
             cursor.close()
             print("DB dropped")
         except mysql.connector.Error as err:
-            print("{}{}".format(MYSQL_DB, err))
+            pass
+            # print("{}".format(MYSQL_DB))
 
         cursor = cnx.cursor(dictionary=True)
         try:

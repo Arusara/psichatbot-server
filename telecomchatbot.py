@@ -264,6 +264,6 @@ def response(inp, userId, context_user):  # Returns the bot's response for "inp"
             responses = i["responses"]
             return random.choice(responses), context[userId]
         else:  # The context didn't match
-            return "I'm sorry, I didn't get that. Please try again. Context:" + context[userId], context[userId]
+            return "I'm sorry, I didn't get that. Please try again.", context[userId]
     else:  # The classification didn't work
-        return "I'm sorry, I didn't get that. Please try again. Context:" + context[userId], context[userId]
+        return "I'm sorry, I didn't get that. Please try again.", context[userId]

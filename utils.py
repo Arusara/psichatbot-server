@@ -21,7 +21,6 @@ config = {
 
 def db_read(query, params=None):
     try:
-        print(config["database"])
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor(dictionary=True)
         if params:
@@ -189,7 +188,6 @@ def write_message(id, user_id, message, is_bot,date_time):
     if db_write("""INSERT into telecom_chatbot_messages (id, user_id, message, isBot, date_time) VALUES (%s, %s, %s, %s,%s)""", 
     (id, user_id, message, is_bot, date_time),
     ):
-        print("Successfully written to db")
         return True
 
     else:

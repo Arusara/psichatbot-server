@@ -362,10 +362,10 @@ class TestChatbotFunctions(MockDB):
                              "----------------------------------\n" +
                              "Active data package: D99\n"
                              "Remaining data: 1000.0MB\n"
-                             "Remaining days: 20 days 24 hours 60 minutes"
+                             "Remaining days: 20 days 23 hours 60 minutes"
                              "\n\nVoice package usage\n" +
                              "-----------------------------------\n" +
                              "Active voice package: V20\n"
                              "Remaining talk time: 30 minutes\n"
-                             "Remaining days: 6 days 24 hours 60 minutes"
+                             "Remaining days: 6 days 23 hours 60 minutes"
                              )
