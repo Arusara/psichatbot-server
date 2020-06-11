@@ -249,8 +249,8 @@ def get_verification_code(email):
 
 
 def send_verification_email(email, first_name, verification_code):
-    msg = Message(subject="Hello",
+    msg = Message(subject="Email Verification - PSIS",
                     sender= current_app.config["MAIL_USERNAME"],
                     recipients=[email])
-    msg.html = render_template("email_verification.html", first_name= first_name, verification_code = verification_code)
+    msg.html = render_template("template.html", first_name= first_name, verification_code = verification_code)
     mail.send(msg)
